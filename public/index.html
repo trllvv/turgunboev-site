@@ -130,7 +130,7 @@ section{padding:clamp(90px,14vw,180px) 0}
 .now-txt h3{font-family:Anton,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(34px,4.2vw,60px);line-height:1;margin-top:12px}
 .now-txt p{margin-top:16px;font-size:16px;line-height:1.7;color:#C9C5BC;max-width:400px}
 .now-pics{grid-column:5 / span 8;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
-.ph-btn{position:relative;display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;color:inherit;text-align:left;-webkit-tap-highlight-color:transparent;perspective:900px}
+.ph-btn{position:relative;display:block;width:100%;padding:0;border:0;background:none;color:inherit;text-align:left;-webkit-tap-highlight-color:transparent;perspective:900px}
 .ph-btn{opacity:0;transform:translate3d(0,28px,0);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
 .now-row.in .ph-btn{opacity:1;transform:none}
 .now-row.in .ph-btn:nth-child(2){transition-delay:0.06s}.now-row.in .ph-btn:nth-child(3){transition-delay:0.12s}.now-row.in .ph-btn:nth-child(4){transition-delay:0.18s}.now-row.in .ph-btn:nth-child(5){transition-delay:0.24s}.now-row.in .ph-btn:nth-child(6){transition-delay:0.30s}.now-row.in .ph-btn:nth-child(7){transition-delay:0.36s}.now-row.in .ph-btn:nth-child(8){transition-delay:0.42s}
@@ -141,12 +141,6 @@ section{padding:clamp(90px,14vw,180px) 0}
 .ph-btn .tilt{transition:transform .5s var(--ease);transform-style:preserve-3d}
 .ph-btn .media::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 60%,rgba(7,7,7,.35));opacity:0;transition:opacity .5s var(--ease);pointer-events:none}
 .ph-btn:hover .media::before{opacity:1}
-/* lightbox */
-#lb{position:fixed;inset:0;z-index:120;background:rgba(7,7,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s var(--ease);padding:clamp(12px,4vw,48px)}
-#lb.on{opacity:1;pointer-events:auto}
-#lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:3px;will-change:transform}
-#lb button{position:absolute;top:14px;right:14px;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:rgba(7,7,7,.6);color:var(--fg);font-size:22px;cursor:pointer}
-#lb button:focus-visible{outline:2px solid var(--fg)}
 @media (max-width:900px){
   .now-txt,.now-pics{grid-column:1/-1}
   .now-txt{position:static}
@@ -338,7 +332,6 @@ footer a:hover{color:var(--fg)}
 </head>
 <body class="loading">
 
-<div id="lb" role="dialog" aria-modal="true" aria-label="Photo"><img alt=""><button type="button" aria-label="Close photo">×</button></div>
 <div id="prog" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>VIEW</span></div>
 <div id="loader" aria-hidden="true"><div class="lh top"></div><div class="lh bot"></div><i class="hz" id="hz"></i></div>
@@ -478,23 +471,23 @@ footer a:hover{color:var(--fg)}
     <div class="now-list">
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">01</span><h3>Studying</h3><p>CIFS - Certificate of International Foundation Studies, year 1 at Westminster International University in Tashkent.</p></div>
-      <div class="now-pics"><button type="button" class="ph-btn" data-full="img/n-class2.webp" aria-label="Open photo: At WIUT"><div class="media"><img src="img/n-class2.webp" srcset="img/n-class2-760.webp 760w, img/n-class2.webp 1279w" sizes="(max-width:900px) 46vw, 22vw" width="1279" height="1312" alt="At WIUT" loading="lazy" decoding="async" style="object-position:50% 35%"></div></button><button type="button" class="ph-btn" data-full="img/n-cifs.webp" aria-label="Open photo: CIFS49 written in cotton on a carpet"><div class="media"><img src="img/n-cifs-tile.webp" srcset="img/n-cifs-tile-760.webp 760w, img/n-cifs-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="CIFS49 written in cotton on a carpet" loading="lazy" decoding="async" style="object-position:50% 50%"></div></button></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-class2.webp" srcset="img/n-class2-760.webp 760w, img/n-class2.webp 1279w" sizes="(max-width:900px) 46vw, 22vw" width="1279" height="1312" alt="At WIUT" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-cifs-tile.webp" srcset="img/n-cifs-tile-760.webp 760w, img/n-cifs-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="CIFS49 written in cotton on a carpet" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">02</span><h3>Building</h3><p>I want to build something of my own. Still figuring it out, one project at a time.</p></div>
-      <div class="now-pics"><button type="button" class="ph-btn" data-full="img/n-techstars2.webp" aria-label="Open photo: At Techstars Startup Week"><div class="media"><img src="img/n-techstars2.webp" width="581" height="1236" alt="At Techstars Startup Week" loading="lazy" decoding="async" style="object-position:50% 30%"></div></button><button type="button" class="ph-btn" data-full="img/n-code.webp" aria-label="Open photo: Laptop with code at night"><div class="media"><img src="img/n-code.webp" srcset="img/n-code-760.webp 760w, img/n-code.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Laptop with code at night" loading="lazy" decoding="async" style="object-position:50% 35%"></div></button></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-techstars2.webp" width="581" height="1236" alt="At Techstars Startup Week" loading="lazy" decoding="async" style="object-position:50% 30%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-code.webp" srcset="img/n-code-760.webp 760w, img/n-code.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Laptop with code at night" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">03</span><h3>Training</h3><p>Building my body the same way I build everything else - one session at a time. Gym, football, and the track where I run.</p></div>
-      <div class="now-pics"><button type="button" class="ph-btn" data-full="img/n-gym.webp" aria-label="Open photo: Training at the gym"><div class="media"><img src="img/n-gym.webp" srcset="img/n-gym-760.webp 760w, img/n-gym.webp 1234w" sizes="(max-width:900px) 46vw, 22vw" width="1234" height="1280" alt="Training at the gym" loading="lazy" decoding="async" style="object-position:50% 40%"></div></button><button type="button" class="ph-btn" data-full="img/n-football.webp" aria-label="Open photo: Night football with friends"><div class="media"><img src="img/n-football.webp" srcset="img/n-football-760.webp 760w, img/n-football.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Night football with friends" loading="lazy" decoding="async" style="object-position:62% 62%"></div></button><button type="button" class="ph-btn" data-full="img/t-rainbow.webp" aria-label="Open photo: The running track under a rainbow"><div class="media"><img src="img/t-rainbow.webp" srcset="img/t-rainbow-760.webp 760w, img/t-rainbow.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="The running track under a rainbow" loading="lazy" decoding="async" style="object-position:55% 70%"></div></button></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-gym.webp" srcset="img/n-gym-760.webp 760w, img/n-gym.webp 1234w" sizes="(max-width:900px) 46vw, 22vw" width="1234" height="1280" alt="Training at the gym" loading="lazy" decoding="async" style="object-position:50% 40%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-football.webp" srcset="img/n-football-760.webp 760w, img/n-football.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Night football with friends" loading="lazy" decoding="async" style="object-position:62% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-rainbow.webp" srcset="img/t-rainbow-760.webp 760w, img/t-rainbow.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="The running track under a rainbow" loading="lazy" decoding="async" style="object-position:55% 70%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">04</span><h3>Learning</h3><p>AI Literacy for Students - certificate from WIUT Digital Academy, November 2026.</p></div>
-      <div class="now-pics"><button type="button" class="ph-btn" data-full="img/n-cert.webp" aria-label="Open photo: AI Literacy for Students certificate"><div class="media"><img src="img/n-cert.webp" srcset="img/n-cert-760.webp 760w, img/n-cert.webp 1240w" sizes="(max-width:900px) 46vw, 22vw" width="1240" height="1754" alt="AI Literacy for Students certificate" loading="lazy" decoding="async" style="object-position:50% 35%"></div></button></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-cert.webp" srcset="img/n-cert-760.webp 760w, img/n-cert.webp 1240w" sizes="(max-width:900px) 46vw, 22vw" width="1240" height="1754" alt="AI Literacy for Students certificate" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">05</span><h3>Travelling</h3><p>Seeing the world is part of the plan.</p></div>
-      <div class="now-pics"><button type="button" class="ph-btn" data-full="img/t-plane.webp" aria-label="Open photo: Flying over Fukuoka"><div class="media"><img src="img/t-plane.webp" srcset="img/t-plane-760.webp 760w, img/t-plane.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Flying over Fukuoka" loading="lazy" decoding="async" style="object-position:50% 55%"></div></button><button type="button" class="ph-btn" data-full="img/t-mirror.webp" aria-label="Open photo: Red moon over the sea, seen from the car"><div class="media"><img src="img/t-mirror.webp" srcset="img/t-mirror-760.webp 760w, img/t-mirror.webp 1080w" sizes="(max-width:900px) 46vw, 22vw" width="1080" height="1920" alt="Red moon over the sea, seen from the car" loading="lazy" decoding="async" style="object-position:50% 50%"></div></button><button type="button" class="ph-btn" data-full="img/t-incheon.webp" aria-label="Open photo: Incheon Airport"><div class="media"><img src="img/t-incheon.webp" srcset="img/t-incheon-760.webp 760w, img/t-incheon.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Incheon Airport" loading="lazy" decoding="async" style="object-position:50% 55%"></div></button><button type="button" class="ph-btn" data-full="img/t-tree.webp" aria-label="Open photo: Looking at the sea in Japan"><div class="media"><img src="img/t-tree.webp" srcset="img/t-tree-760.webp 760w, img/t-tree.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Looking at the sea in Japan" loading="lazy" decoding="async" style="object-position:30% 62%"></div></button><button type="button" class="ph-btn" data-full="img/t-beach.webp" aria-label="Open photo: A beach in Fukuoka"><div class="media"><img src="img/t-beach.webp" srcset="img/t-beach-760.webp 760w, img/t-beach.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="A beach in Fukuoka" loading="lazy" decoding="async" style="object-position:50% 60%"></div></button><button type="button" class="ph-btn" data-full="img/t-bike.webp" aria-label="Open photo: Bike under a sunset sky"><div class="media"><img src="img/t-bike.webp" srcset="img/t-bike-760.webp 760w, img/t-bike.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Bike under a sunset sky" loading="lazy" decoding="async" style="object-position:50% 62%"></div></button><button type="button" class="ph-btn" data-full="img/t-night.webp" aria-label="Open photo: Evening by the sea"><div class="media"><img src="img/t-night.webp" srcset="img/t-night-760.webp 760w, img/t-night.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Evening by the sea" loading="lazy" decoding="async" style="object-position:30% 55%"></div></button><button type="button" class="ph-btn" data-full="img/n-camera.webp" aria-label="Open photo: Filming the night sky"><div class="media"><img src="img/n-camera-tile.webp" srcset="img/n-camera-tile-760.webp 760w, img/n-camera-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="Filming the night sky" loading="lazy" decoding="async" style="object-position:50% 50%"></div></button></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/t-plane.webp" srcset="img/t-plane-760.webp 760w, img/t-plane.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Flying over Fukuoka" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-mirror.webp" srcset="img/t-mirror-760.webp 760w, img/t-mirror.webp 1080w" sizes="(max-width:900px) 46vw, 22vw" width="1080" height="1920" alt="Red moon over the sea, seen from the car" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-incheon.webp" srcset="img/t-incheon-760.webp 760w, img/t-incheon.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Incheon Airport" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-tree.webp" srcset="img/t-tree-760.webp 760w, img/t-tree.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Looking at the sea in Japan" loading="lazy" decoding="async" style="object-position:30% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-beach.webp" srcset="img/t-beach-760.webp 760w, img/t-beach.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="A beach in Fukuoka" loading="lazy" decoding="async" style="object-position:50% 60%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-bike.webp" srcset="img/t-bike-760.webp 760w, img/t-bike.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Bike under a sunset sky" loading="lazy" decoding="async" style="object-position:50% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-night.webp" srcset="img/t-night-760.webp 760w, img/t-night.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Evening by the sea" loading="lazy" decoding="async" style="object-position:30% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-camera-tile.webp" srcset="img/n-camera-tile-760.webp 760w, img/n-camera-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="Filming the night sky" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
     </div>
     </div>
   </div>
@@ -681,7 +674,7 @@ if(FINE&&!RM){
   document.addEventListener('mouseleave',()=>cur.classList.remove('on'));
   const tick=()=>{cx+=(mx-cx)*0.18;cy+=(my-cy)*0.18;cur.style.transform='translate3d('+cx+'px,'+cy+'px,0)';requestAnimationFrame(tick)};tick();
   document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'))});
-  document.querySelectorAll('.shot .media,.card .media').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('view'));el.addEventListener('mouseleave',()=>cur.classList.remove('view'))});
+  
   // magnetic buttons
   document.querySelectorAll('.btn').forEach(b=>{
     b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.25)+'px,'+((e.clientY-r.top-r.height/2)*0.35)+'px)'});
@@ -691,38 +684,6 @@ if(FINE&&!RM){
 
 
 
-// lightbox: photo grows out of its tile and returns to it
-const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbc=lb.querySelector('button');let lbFrom=null,lbBusy=false;
-const EASE='cubic-bezier(.2,.8,.2,1)';
-function morph(tile,reverse){
-  const F=tile.getBoundingClientRect(),L=lbi.getBoundingClientRect();if(!L.width||!F.width)return Promise.resolve();
-  const sc=Math.max(F.width/L.width,F.height/L.height);
-  const vw=F.width/sc,vh=F.height/sc,ix=Math.max(0,(L.width-vw)/2),iy=Math.max(0,(L.height-vh)/2);
-  const dx=(F.left+F.width/2)-(L.left+L.width/2),dy=(F.top+F.height/2)-(L.top+L.height/2);
-  const a={transform:'translate('+dx+'px,'+dy+'px) scale('+sc+')',clipPath:'inset('+iy+'px '+ix+'px round '+(3/sc)+'px)'};
-  const b={transform:'none',clipPath:'inset(0px 0px round 3px)'};
-  return lbi.animate(reverse?[b,a]:[a,b],{duration:reverse?520:620,easing:EASE,fill:'both'}).finished.catch(()=>{});
-}
-async function lbOpen(btn){
-  if(lbBusy)return;lbBusy=true;lbFrom=btn;const t=btn.querySelector('img'),tile=btn.querySelector('.media');
-  lbi.getAnimations().forEach(a=>a.cancel());
-  lbi.src=t.currentSrc||t.src;lbi.alt=t.alt||'';
-  try{await lbi.decode()}catch(_){}
-  lb.classList.add('on');document.documentElement.style.overflow='hidden';if(lenis)lenis.stop();
-  tile.style.visibility='hidden';
-  if(!RM)await morph(tile,false);
-  const full=btn.dataset.full;if(full&&!lbi.src.endsWith(full)){const pre=new Image();pre.src=full;pre.decode().then(()=>{if(lbFrom===btn)lbi.src=full;}).catch(()=>{});}
-  lbc.focus({preventScroll:true});lbBusy=false;
-}
-async function lbClose(){
-  if(!lb.classList.contains('on')||lbBusy)return;lbBusy=true;const btn=lbFrom,tile=btn&&btn.querySelector('.media');
-  lb.classList.remove('on');
-  if(tile&&!RM)await morph(tile,true);
-  if(tile)tile.style.visibility='';lbi.getAnimations().forEach(a=>a.cancel());
-  document.documentElement.style.overflow='';if(lenis)lenis.start();if(btn)btn.focus({preventScroll:true});lbBusy=false;
-}
-document.querySelectorAll('.ph-btn').forEach(b=>b.addEventListener('click',()=>lbOpen(b)));
-lb.addEventListener('click',lbClose);addEventListener('keydown',e=>{if(e.key==='Escape')lbClose();});
 // About: words light up as you scroll
 const wr=document.querySelector('.wr');let wrWords=[];
 if(wr){const txt=wr.textContent.trim();wr.textContent='';txt.split(/\s+/).forEach((w,i,arr)=>{const sp=document.createElement('span');sp.className='w';sp.textContent=w;wr.appendChild(sp);if(i<arr.length-1)wr.appendChild(document.createTextNode(' '));});wrWords=[...wr.querySelectorAll('.w')];}
