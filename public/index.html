@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://turgunboev.com/img/og.jpg">
 <script>document.documentElement.classList.add('js');setTimeout(function(){var b=document.body;if(b&&b.classList.contains('loading')){b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done');document.querySelectorAll('.rv,.clip,.sr').forEach(function(e){e.classList.add('in')});document.querySelectorAll('.media img,.hero .bg img').forEach(function(i){i.classList.add('ok')})}},8000)</script>
-<noscript><style>.ph-btn{opacity:1!important;transform:none!important}.ph-btn .media{transform:none!important}#loader{display:none}body.loading{overflow:auto}.rv,.media img,.hero .bg img,.hero .meta{opacity:1!important;transform:none!important}.clip{clip-path:none!important}.line>span,.ln>span{transform:none!important}</style></noscript>
+<noscript><style>.wr .w{opacity:1}.ph-btn{opacity:1!important;transform:none!important}.ph-btn .media{transform:none!important}#loader{display:none}body.loading{overflow:auto}.rv,.media img,.hero .bg img,.hero .meta{opacity:1!important;transform:none!important}.clip{clip-path:none!important}.line>span,.ln>span{transform:none!important}</style></noscript>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23070707'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Impact,Arial Black,sans-serif' font-size='28' fill='%23F3F1EC'%3EB.T.%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#070707">
 <link rel="preload" as="image" href="img/hero.webp" fetchpriority="high">
@@ -110,6 +110,15 @@ section{padding:clamp(90px,14vw,180px) 0}
 
 
 
+
+/* kinetic hero + word reveal + clock */
+.hero .shade{position:absolute;inset:0;z-index:1;background:#070707;opacity:0;pointer-events:none}
+#heroTxt{transform-origin:0 100%;will-change:transform,opacity}
+.wr .w{opacity:.16;transition:opacity .25s linear}
+.wr .w.on{opacity:1}
+.clock{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);font-variant-numeric:tabular-nums}
+.clock i{width:7px;height:7px;border-radius:50%;background:#6fd08c;box-shadow:0 0 0 0 rgba(111,208,140,.6);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(111,208,140,.55)}70%{box-shadow:0 0 0 10px rgba(111,208,140,0)}100%{box-shadow:0 0 0 0 rgba(111,208,140,0)}}
 /* now */
 #now{padding-top:clamp(40px,8vw,120px)}
 .now-up{margin-top:20px;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--mut)}
@@ -133,10 +142,9 @@ section{padding:clamp(90px,14vw,180px) 0}
 .ph-btn .media::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 60%,rgba(7,7,7,.35));opacity:0;transition:opacity .5s var(--ease);pointer-events:none}
 .ph-btn:hover .media::before{opacity:1}
 /* lightbox */
-#lb{position:fixed;inset:0;z-index:120;background:rgba(7,7,7,.96);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s var(--ease);padding:clamp(12px,4vw,48px)}
+#lb{position:fixed;inset:0;z-index:120;background:rgba(7,7,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s var(--ease);padding:clamp(12px,4vw,48px)}
 #lb.on{opacity:1;pointer-events:auto}
-#lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:3px;transform:scale(.96);transition:transform .6s var(--ease)}
-#lb.on img{transform:none}
+#lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:3px;will-change:transform}
 #lb button{position:absolute;top:14px;right:14px;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:rgba(7,7,7,.6);color:var(--fg);font-size:22px;cursor:pointer}
 #lb button:focus-visible{outline:2px solid var(--fg)}
 @media (max-width:900px){
@@ -361,6 +369,7 @@ footer a:hover{color:var(--fg)}
 
 <header class="hero" id="top">
   <div class="bg"><div class="kb"><img src="img/hero.webp" alt="Bekhzod at sunset by the sea in Japan" fetchpriority="high"></div></div>
+  <div class="shade" id="heroShade" aria-hidden="true"></div>
   <div class="txt wrap" id="heroTxt">
     <h1 class="disp" id="name"><span class="line"><span>Turgunboev</span></span><span class="line"><span>Bekhzod</span></span></h1>
     <div class="meta">
@@ -378,7 +387,7 @@ footer a:hover{color:var(--fg)}
       <h2 class="disp sr big" style="margin-top:24px">Two places.<br>One goal.</h2>
     </div>
     <div style="grid-column:7 / span 6">
-      <p class="lead rv">I'm Bekhzod - born in Uzbekistan, grown up in Japan, now building in Tashkent.</p>
+      <p class="lead wr">I'm Bekhzod - born in Uzbekistan, grown up in Japan, now building in Tashkent.</p>
       <div class="body rv d1" style="margin-top:32px">
         <p>I study at Westminster International University in Tashkent and run the tech side of our family business, Japan Universal Shop - I designed and launched its online store myself.</p>
         <p>I grew up between two cultures, learned three languages, and I'm the eldest son of 6 brothers. Becoming an entrepreneur.</p>
@@ -517,6 +526,7 @@ footer a:hover{color:var(--fg)}
   <div class="wrap">
     <div class="label rv">Get in touch</div>
     <h2 class="disp sr" style="margin-top:24px;font-size:clamp(64px,12vw,200px)">Let's work<br>together.</h2>
+    <div class="clock rv d1" aria-live="off"><i aria-hidden="true"></i><span id="clock">Tashkent</span></div>
     <div class="btns rv d2">
       <a class="btn fill" href="mailto:turgunboevbekhzodbek@gmail.com" style="text-transform:none;letter-spacing:.04em;font-size:14px">turgunboevbekhzodbek@gmail.com</a>
       <a class="btn" href="https://t.me/tllfvv" target="_blank" rel="noopener">Telegram
@@ -647,13 +657,15 @@ if(window.Lenis&&!RM&&FINE){
 }
 // hero parallax
 const heroImgEl=document.querySelector('.hero .bg img');
-function heroFx(){
-  const y=scrollY,vh=innerHeight;if(y>vh*1.2)return;
-  heroImgEl.style.transform='translate3d(0,'+(y*0.28)+'px,0)';
-  htxt.style.transform='translate3d(0,'+(-y*0.12)+'px,0)';
-  htxt.style.opacity=String(Math.max(0,1-y/(vh*0.7)));
+const heroShade=document.getElementById('heroShade');let hfQ=false;
+function heroFx(){hfQ=false;
+  const y=Math.max(0,scrollY),vh=innerHeight;if(y>vh*1.3)return;const p=Math.min(1,y/vh);
+  if(FINE)heroImgEl.style.transform='translate3d(0,'+(y*0.28)+'px,0)';
+  htxt.style.transform='translate3d(0,'+(-y*0.18)+'px,0) scale('+(1+p*0.14)+')';
+  htxt.style.opacity=String(Math.max(0,1-p*1.5));
+  heroShade.style.opacity=String(p*0.75);
 }
-if(!RM&&FINE)addEventListener('scroll',()=>requestAnimationFrame(heroFx),{passive:true});
+if(!RM){addEventListener('scroll',()=>{if(!hfQ){hfQ=true;requestAnimationFrame(heroFx);}},{passive:true});}
 // count up
 document.querySelectorAll('.stats b').forEach(b=>{
   const v=parseFloat(b.textContent);if(isNaN(v)||RM)return;
@@ -679,12 +691,50 @@ if(FINE&&!RM){
 
 
 
-// lightbox for HD photos
-const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbc=lb.querySelector('button');let lbFrom=null;
-function lbOpen(src,alt,from){lbFrom=from;lbi.src=src;lbi.alt=alt||'';lb.classList.add('on');document.documentElement.style.overflow='hidden';if(lenis)lenis.stop();lbc.focus();}
-function lbClose(){if(!lb.classList.contains('on'))return;lb.classList.remove('on');document.documentElement.style.overflow='';if(lenis)lenis.start();if(lbFrom)lbFrom.focus();}
-document.querySelectorAll('.ph-btn').forEach(b=>b.addEventListener('click',()=>{const i=b.querySelector('img');lbOpen(b.dataset.full,i&&i.alt,b);}));
+// lightbox: photo grows out of its tile and returns to it
+const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbc=lb.querySelector('button');let lbFrom=null,lbBusy=false;
+const EASE='cubic-bezier(.2,.8,.2,1)';
+function morph(tile,reverse){
+  const F=tile.getBoundingClientRect(),L=lbi.getBoundingClientRect();if(!L.width||!F.width)return Promise.resolve();
+  const sc=Math.max(F.width/L.width,F.height/L.height);
+  const vw=F.width/sc,vh=F.height/sc,ix=Math.max(0,(L.width-vw)/2),iy=Math.max(0,(L.height-vh)/2);
+  const dx=(F.left+F.width/2)-(L.left+L.width/2),dy=(F.top+F.height/2)-(L.top+L.height/2);
+  const a={transform:'translate('+dx+'px,'+dy+'px) scale('+sc+')',clipPath:'inset('+iy+'px '+ix+'px round '+(3/sc)+'px)'};
+  const b={transform:'none',clipPath:'inset(0px 0px round 3px)'};
+  return lbi.animate(reverse?[b,a]:[a,b],{duration:reverse?520:620,easing:EASE,fill:'both'}).finished.catch(()=>{});
+}
+async function lbOpen(btn){
+  if(lbBusy)return;lbBusy=true;lbFrom=btn;const t=btn.querySelector('img'),tile=btn.querySelector('.media');
+  lbi.getAnimations().forEach(a=>a.cancel());
+  lbi.src=t.currentSrc||t.src;lbi.alt=t.alt||'';
+  try{await lbi.decode()}catch(_){}
+  lb.classList.add('on');document.documentElement.style.overflow='hidden';if(lenis)lenis.stop();
+  tile.style.visibility='hidden';
+  if(!RM)await morph(tile,false);
+  const full=btn.dataset.full;if(full&&!lbi.src.endsWith(full)){const pre=new Image();pre.src=full;pre.decode().then(()=>{if(lbFrom===btn)lbi.src=full;}).catch(()=>{});}
+  lbc.focus({preventScroll:true});lbBusy=false;
+}
+async function lbClose(){
+  if(!lb.classList.contains('on')||lbBusy)return;lbBusy=true;const btn=lbFrom,tile=btn&&btn.querySelector('.media');
+  lb.classList.remove('on');
+  if(tile&&!RM)await morph(tile,true);
+  if(tile)tile.style.visibility='';lbi.getAnimations().forEach(a=>a.cancel());
+  document.documentElement.style.overflow='';if(lenis)lenis.start();if(btn)btn.focus({preventScroll:true});lbBusy=false;
+}
+document.querySelectorAll('.ph-btn').forEach(b=>b.addEventListener('click',()=>lbOpen(b)));
 lb.addEventListener('click',lbClose);addEventListener('keydown',e=>{if(e.key==='Escape')lbClose();});
+// About: words light up as you scroll
+const wr=document.querySelector('.wr');let wrWords=[];
+if(wr){const txt=wr.textContent.trim();wr.textContent='';txt.split(/\s+/).forEach((w,i,arr)=>{const sp=document.createElement('span');sp.className='w';sp.textContent=w;wr.appendChild(sp);if(i<arr.length-1)wr.appendChild(document.createTextNode(' '));});wrWords=[...wr.querySelectorAll('.w')];}
+let wrQ=false;
+function wrFx(){wrQ=false;if(!wr)return;const r=wr.getBoundingClientRect(),vh=innerHeight;
+  const p=Math.min(1,Math.max(0,(vh*0.88-r.top)/(vh*0.5)));const n=Math.round(p*wrWords.length);
+  wrWords.forEach((w,i)=>w.classList.toggle('on',i<n));}
+if(RM){wrWords.forEach(w=>w.classList.add('on'));}else{addEventListener('scroll',()=>{if(!wrQ){wrQ=true;requestAnimationFrame(wrFx);}},{passive:true});wrFx();}
+// live Tashkent clock
+const clk=document.getElementById('clock');
+function clockTick(){try{const t=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tashkent',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());clk.textContent='Tashkent · '+t+' · GMT+5';}catch(_){clk.textContent='Tashkent · GMT+5';}}
+clockTick();setInterval(clockTick,20000);
 
 
 // 3D tilt on photo tiles (mouse only)
