@@ -52,10 +52,14 @@ img{display:block;width:100%;height:100%;object-fit:cover;image-rendering:auto}
 /* intro: the horizon opens */
 #loader{position:fixed;inset:0;z-index:100;pointer-events:none;--hy:50vh}
 body.loading #loader{pointer-events:auto}
-#loader .lh{position:absolute;left:0;right:0;background:var(--bg);transition:transform 1.5s cubic-bezier(.77,0,.18,1)}
+#loader .lh{position:absolute;left:0;right:0;background:var(--bg);transition:transform 1.25s cubic-bezier(.76,0,.24,1)}
 #loader .top{top:0;height:var(--hy)}
 #loader .bot{top:var(--hy);bottom:0}
-#loader .hz{position:absolute;left:0;right:0;top:var(--hy);height:1px;margin-top:-.5px;background:linear-gradient(90deg,transparent,rgba(243,241,236,.9) 20%,#fff 50%,rgba(243,241,236,.9) 80%,transparent);transform:scaleX(0);transition:transform .5s var(--ease),opacity .6s ease .35s;box-shadow:0 0 18px rgba(255,214,170,.55)}
+#loader .hz{position:absolute;left:0;right:0;top:var(--hy);height:1px;margin-top:-.5px;background:linear-gradient(90deg,transparent,rgba(255,226,196,.85) 18%,#fff 50%,rgba(255,226,196,.85) 82%,transparent);transform:scaleX(0);box-shadow:0 0 22px 1px rgba(255,190,140,.6);animation:hzdraw .6s cubic-bezier(.65,0,.35,1) .05s forwards;transition:opacity .5s ease .3s}
+#loader .top::after,#loader .bot::before{content:"";position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,226,196,.7) 25%,rgba(255,240,225,.9) 50%,rgba(255,226,196,.7) 75%,transparent);opacity:0;transition:opacity .2s}
+#loader .top::after{bottom:0}#loader .bot::before{top:0}
+#loader.done .top::after,#loader.done .bot::before{opacity:1}
+@keyframes hzdraw{to{transform:scaleX(1)}}
 #loader.done .top{transform:translateY(-100%)}
 #loader.done .bot{transform:translateY(100%)}
 #loader.done .hz{opacity:0}
@@ -81,9 +85,9 @@ body.ready .hero .bg{transform:scale(1)}
 .hero .txt{position:absolute;left:0;right:0;bottom:clamp(28px,6vh,64px);z-index:2}
 .hero h1{font-size:clamp(52px,10.2vw,184px)}
 .line{display:block;overflow:hidden}
-.line>span{display:block;transform:translateY(105%);transition:transform 1.3s var(--ease)}
-body.ready .line>span{transform:none}
-body.ready .line:nth-child(2)>span{transition-delay:.12s}
+.line>span{display:block}
+.js .line .ch{display:inline-block;transform:translateY(112%) rotate(6deg);transform-origin:0 100%;filter:blur(6px);opacity:.2;transition:transform 1s var(--ease),filter 1s var(--ease),opacity .8s var(--ease);transition-delay:calc(var(--i)*30ms + .3s)}
+body.ready .line .ch{transform:none;filter:none;opacity:1}
 .hero .meta{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:22px;opacity:0;transform:translateY(20px);transition:1.2s var(--ease) .6s}
 body.ready .hero .meta{opacity:1;transform:none}
 .hero .meta p{max-width:440px;font-size:15px;line-height:1.6;color:#D7D3CB}
@@ -136,17 +140,6 @@ section{padding:clamp(90px,14vw,180px) 0}
   .now-txt,.now-pics{grid-column:1/-1}
   .now-txt{position:static}
   .now-pics{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-/* journey photos */
-.row .thumb{display:none}
-#jimg{position:fixed;left:0;top:0;width:240px;aspect-ratio:4/5;z-index:40;pointer-events:none;overflow:hidden;border-radius:3px;opacity:0;transform:translate3d(-999px,-999px,0) scale(.85);transition:opacity .45s var(--ease);box-shadow:0 30px 60px rgba(0,0,0,.5)}
-#jimg.on{opacity:1}
-#jimg img{width:100%;height:100%;object-fit:cover;transition:opacity .3s}
-.row.has-img{cursor:none}
-@media (max-width:900px){
-  .row.has-img{padding-right:80px}
-  .row .thumb{display:block;position:absolute;right:0;top:36px;width:64px;height:80px;object-fit:cover;border-radius:3px;opacity:.9}
-  .row.has-img{cursor:auto}
 }
 /* polish v3 */
 #prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:var(--fg);transform-origin:left;transform:scaleX(0);pointer-events:none;opacity:.85}
@@ -213,7 +206,6 @@ body.menu{overflow:hidden}
 
 @media (max-width:900px){
   section{padding:72px 0}
-  #journey{padding-top:64px}
   .split{gap:28px}.split .big{font-size:clamp(44px,13vw,96px)}}
 .lead{font-size:clamp(20px,2vw,28px);line-height:1.45;font-weight:300}
 .body{font-size:17px;line-height:1.75;color:#C9C5BC}
@@ -328,14 +320,13 @@ footer a:hover{color:var(--fg)}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
   .ln>span{transform:none}.ph-btn{opacity:1;transform:none}.row::before,.label::before{transform:none}body::after{display:none}
-  .rv{opacity:1;transform:none}.clip{clip-path:none}.line>span{transform:none}.hero .bg{transform:none}
+  .rv{opacity:1;transform:none}.clip{clip-path:none}.line .ch{transform:none!important;filter:none!important;opacity:1!important}.hero .bg{transform:none}
 }
 </style>
 </head>
 <body class="loading">
 
 <div id="lb" role="dialog" aria-modal="true" aria-label="Photo"><img alt=""><button type="button" aria-label="Close photo">×</button></div>
-<div id="jimg" aria-hidden="true"><img alt=""></div>
 <div id="prog" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>VIEW</span></div>
 <div id="loader" aria-hidden="true"><div class="lh top"></div><div class="lh bot"></div><i class="hz" id="hz"></i></div>
@@ -347,7 +338,7 @@ footer a:hover{color:var(--fg)}
       <div class="links">
         <a href="#about">About</a>
         <a href="#early">Early Life</a>
-        <a href="#journey">Journey</a>
+        <a href="#now">Now</a>
         <a href="#contact">Contact</a>
       </div>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i></button>
@@ -358,7 +349,7 @@ footer a:hover{color:var(--fg)}
   <div class="wrap mnav-in">
     <a href="#about"><span>01</span>About</a>
     <a href="#early"><span>02</span>Early Life</a>
-    <a href="#journey"><span>03</span>Journey</a>
+    <a href="#now"><span>03</span>Now</a>
     <a href="#projects"><span>04</span>Projects</a>
     <a href="#contact"><span>05</span>Contact</a>
     <div class="mnav-foot"><a href="https://instagram.com/tllfvv" target="_blank" rel="noopener">Instagram</a><a href="https://t.me/tllfvv" target="_blank" rel="noopener">Telegram</a><a href="https://www.linkedin.com/in/bekhzodbek-turgunboev/" target="_blank" rel="noopener">LinkedIn</a></div>
@@ -467,20 +458,6 @@ footer a:hover{color:var(--fg)}
 </section>
 
 
-<section id="journey">
-  <div class="wrap">
-    <div class="label rv">Journey</div>
-    <h2 class="disp sr big" style="margin:24px 0 70px">The story<br>so far</h2>
-    <div class="row rv has-img" data-img="img/g1-baby.webp"><img class="thumb" src="img/g1-baby.webp" alt="Bekhzod as a baby" loading="lazy" decoding="async"><div class="yr">2008</div><h3>Born</h3><p>10 June - To'raqo'rg'on, Namangan, Uzbekistan.</p></div>
-    <div class="row rv has-img" data-img="img/g2-fukuoka-900.webp"><img class="thumb" src="img/g2-fukuoka-900.webp" alt="With his father in Fukuoka" loading="lazy" decoding="async"><div class="yr">2010</div><h3>Moved to Japan</h3><p>My family moved to Fukuoka, where I grew up until 14.</p></div>
-    <div class="row rv has-img" data-img="img/globe-tashkent.webp"><img class="thumb" src="img/globe-tashkent.webp" alt="Map pin on Tashkent" loading="lazy" decoding="async"><div class="yr">2022</div><h3>Back to Tashkent</h3><p>Came back to Uzbekistan and started learning English.</p></div>
-    <div class="row rv"><div class="yr">2023</div><h3>JLPT N1</h3><p>Passed the highest level of the Japanese Language Proficiency Test.</p></div>
-    <div class="row rv"><div class="yr">2024</div><h3>First IELTS - 6.0</h3><p>My first IELTS, overall band 6.0.</p></div>
-    <div class="row rv"><div class="yr">2025</div><h3>IELTS 7.0</h3><p>Raised my overall band to 7.0.</p></div>
-    <div class="row rv has-img" data-img="img/jus-900.webp"><img class="thumb" src="img/jus-900.webp" alt="Japan Universal Shop website" loading="lazy" decoding="async"><div class="yr">2026</div><h3>Building</h3><p>Studying at WIUT and launching japanuniversal.com as CTO of Japan Universal Shop.</p></div>
-  </div>
-</section>
-
 <section id="now">
   <div class="wrap">
     <div class="label rv">Now</div>
@@ -578,17 +555,17 @@ document.querySelectorAll('img[src^="img/"]:not(.thumb)').forEach(img=>{
 });
 const heroImg=document.querySelector('.hero .bg img');
 const heroReady=new Promise(r=>{if(heroImg.complete&&heroImg.naturalWidth)r();else{heroImg.addEventListener('load',r);heroImg.addEventListener('error',r);setTimeout(r,6000);}});
+const RMQ=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const body=document.body,hz=document.getElementById('hz'),ld=document.getElementById('loader');
 // put the opening line exactly on the sea horizon of the hero photo (photo 1437x2560, horizon at y=1668)
 (function(){const W=innerWidth,H=document.querySelector('.hero').clientHeight||innerHeight,sc=Math.max(W/1437,H/2560);
   let y=(H-2560*sc)*0.72+1668*sc;y=Math.max(H*.2,Math.min(H*.8,y));ld.style.setProperty('--hy',y+'px');})();
-let n=0,heroOk=false;heroReady.then(()=>heroOk=true);
-const t=setInterval(()=>{
-  const cap=heroOk?100:88;
-  n=Math.min(cap,n+Math.max(1,Math.ceil((cap-n)/9)));hz.style.transform='scaleX('+(n/100)+')';
-  if(n>=100){clearInterval(t);setTimeout(()=>{ld.classList.add('done');body.classList.remove('loading');body.classList.add('ready');if(lenis)lenis.start();setTimeout(()=>{ld.style.display='none'},1700);},420);}
-},45);
-
+// split hero name into letters for a staggered rise
+document.querySelectorAll('#name .line>span').forEach((sp,li)=>{const txt=sp.textContent;sp.textContent='';[...txt].forEach((c,i)=>{const e=document.createElement('i');e.className='ch';e.style.setProperty('--i',i+li*4);e.textContent=c;sp.appendChild(e);});sp.setAttribute('aria-label',txt);});
+let opened=false;
+function openIntro(){if(opened)return;opened=true;ld.classList.add('done');body.classList.remove('loading');body.classList.add('ready');if(lenis)lenis.start();setTimeout(()=>{ld.style.display='none'},1400);}
+setTimeout(openIntro,RMQ?0:700);
+heroReady.then(()=>{});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 // clip-path hides the box from IntersectionObserver, so watch its parent instead
@@ -699,18 +676,6 @@ if(FINE&&!RM){
   });
 }
 
-
-
-// journey: floating photo that follows the cursor
-if(FINE&&!RM){
-  const jb=document.getElementById('jimg'),ji=jb.querySelector('img');let jx=-999,jy=-999,tx=-999,ty=-999,jon=false,jr=0,tr=0;
-  document.querySelectorAll('.row.has-img').forEach(r=>{
-    r.addEventListener('mouseenter',e=>{const s=r.dataset.img;if(ji.getAttribute('src')!==s)ji.src=s;jon=true;jb.classList.add('on');document.getElementById('cur').classList.add('big');tx=e.clientX;ty=e.clientY;if(jx<-900){jx=tx;jy=ty;}});
-    r.addEventListener('mouseleave',()=>{jon=false;jb.classList.remove('on');document.getElementById('cur').classList.remove('big');});
-    r.addEventListener('mousemove',e=>{tr=Math.max(-8,Math.min(8,(e.clientX-tx)*.6));tx=e.clientX;ty=e.clientY;});
-  });
-  const jt=()=>{jx+=(tx-jx)*.14;jy+=(ty-jy)*.14;jr+=(tr-jr)*.1;tr*=.9;jb.style.transform='translate3d('+(jx+28)+'px,'+(jy-150)+'px,0) rotate('+jr+'deg) scale('+(jon?1:.85)+')';requestAnimationFrame(jt)};jt();
-}
 
 
 // lightbox for HD photos
