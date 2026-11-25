@@ -74,6 +74,8 @@ nav.solid{background:rgba(7,7,7,.75);backdrop-filter:blur(14px)}
 .hero{position:relative;height:100vh;height:100svh;min-height:620px;overflow:hidden}
 .hero .bg{position:absolute;inset:0;transform:scale(1.18);transition:transform 2.6s var(--ease)}
 .hero .bg img{object-position:50% 72%}
+.hero .kb{position:absolute;inset:0;animation:kb 26s ease-in-out 3s infinite alternate;will-change:transform}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07) translate3d(-1%,-1%,0)}}
 body.ready .hero .bg{transform:scale(1)}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,7,7,.35) 0%,rgba(7,7,7,0) 30%,rgba(7,7,7,0) 55%,rgba(7,7,7,.85) 100%)}
 .hero .txt{position:absolute;left:0;right:0;bottom:clamp(28px,6vh,64px);z-index:2}
@@ -101,6 +103,18 @@ section{padding:clamp(90px,14vw,180px) 0}
 .split .big{font-size:clamp(44px,6vw,104px)}
 
 
+
+/* journey photos */
+.row .thumb{display:none}
+#jimg{position:fixed;left:0;top:0;width:240px;aspect-ratio:4/5;z-index:40;pointer-events:none;overflow:hidden;border-radius:3px;opacity:0;transform:translate3d(-999px,-999px,0) scale(.85);transition:opacity .45s var(--ease);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+#jimg.on{opacity:1}
+#jimg img{width:100%;height:100%;object-fit:cover;transition:opacity .3s}
+.row.has-img{cursor:none}
+@media (max-width:900px){
+  .row.has-img{padding-right:80px}
+  .row .thumb{display:block;position:absolute;right:0;top:36px;width:64px;height:80px;object-fit:cover;border-radius:3px;opacity:.9}
+  .row.has-img{cursor:auto}
+}
 /* polish v3 */
 #prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:var(--fg);transform-origin:left;transform:scaleX(0);pointer-events:none;opacity:.85}
 .links a.on{color:var(--fg)}
@@ -175,7 +189,7 @@ body.menu{overflow:hidden}
 .media img{transform:scale(1.04)}
 .clip{clip-path:inset(100% 0 0 0);transition:clip-path 1.6s var(--ease)}
 .clip.in{clip-path:inset(0 0 0 0)}
-.media,.hero .bg{background-size:cover;background-position:center;background-color:#111}
+.media,.hero .bg,.hero .kb{background-size:cover;background-position:center;background-color:#111}
 .media img,.hero .bg img{opacity:0;transition:opacity 1s var(--ease)}
 .media img.ok,.hero .bg img.ok{opacity:1}
 .lz::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid rgba(243,241,236,.25);border-top-color:#F3F1EC;animation:spin .9s linear infinite;z-index:3;pointer-events:none;transition:opacity .4s}
@@ -287,6 +301,7 @@ footer a:hover{color:var(--fg)}
 </head>
 <body class="loading">
 
+<div id="jimg" aria-hidden="true"><img alt=""></div>
 <div id="prog" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>VIEW</span></div>
 <div id="loader" aria-hidden="true"><div class="lh top"></div><div class="lh bot"></div><i class="hz" id="hz"></i></div>
@@ -317,7 +332,7 @@ footer a:hover{color:var(--fg)}
 </div>
 
 <header class="hero" id="top">
-  <div class="bg"><img src="img/hero.webp" alt="Bekhzod at sunset by the sea in Japan" fetchpriority="high"></div>
+  <div class="bg"><div class="kb"><img src="img/hero.webp" alt="Bekhzod at sunset by the sea in Japan" fetchpriority="high"></div></div>
   <div class="txt wrap" id="heroTxt">
     <h1 class="disp" id="name"><span class="line"><span>Turgunboev</span></span><span class="line"><span>Bekhzod</span></span></h1>
     <div class="meta">
@@ -422,13 +437,13 @@ footer a:hover{color:var(--fg)}
   <div class="wrap">
     <div class="label rv">Journey</div>
     <h2 class="disp sr big" style="margin:24px 0 70px">The story<br>so far</h2>
-    <div class="row rv"><div class="yr">2008</div><h3>Born</h3><p>10 June - To'raqo'rg'on, Namangan, Uzbekistan.</p></div>
-    <div class="row rv"><div class="yr">2010</div><h3>Moved to Japan</h3><p>My family moved to Fukuoka, where I grew up until 14.</p></div>
-    <div class="row rv"><div class="yr">2022</div><h3>Back to Tashkent</h3><p>Came back to Uzbekistan and started learning English.</p></div>
+    <div class="row rv has-img" data-img="img/g1-baby.webp"><img class="thumb" src="img/g1-baby.webp" alt="Bekhzod as a baby" loading="lazy" decoding="async"><div class="yr">2008</div><h3>Born</h3><p>10 June - To'raqo'rg'on, Namangan, Uzbekistan.</p></div>
+    <div class="row rv has-img" data-img="img/g2-fukuoka-900.webp"><img class="thumb" src="img/g2-fukuoka-900.webp" alt="With his father in Fukuoka" loading="lazy" decoding="async"><div class="yr">2010</div><h3>Moved to Japan</h3><p>My family moved to Fukuoka, where I grew up until 14.</p></div>
+    <div class="row rv has-img" data-img="img/globe-tashkent.webp"><img class="thumb" src="img/globe-tashkent.webp" alt="Map pin on Tashkent" loading="lazy" decoding="async"><div class="yr">2022</div><h3>Back to Tashkent</h3><p>Came back to Uzbekistan and started learning English.</p></div>
     <div class="row rv"><div class="yr">2023</div><h3>JLPT N1</h3><p>Passed the highest level of the Japanese Language Proficiency Test.</p></div>
     <div class="row rv"><div class="yr">2024</div><h3>First IELTS - 6.0</h3><p>My first IELTS, overall band 6.0.</p></div>
     <div class="row rv"><div class="yr">2025</div><h3>IELTS 7.0</h3><p>Raised my overall band to 7.0.</p></div>
-    <div class="row rv"><div class="yr">2026</div><h3>Building</h3><p>Studying at WIUT and launching japanuniversal.com as CTO of Japan Universal Shop.</p></div>
+    <div class="row rv has-img" data-img="img/jus-900.webp"><img class="thumb" src="img/jus-900.webp" alt="Japan Universal Shop website" loading="lazy" decoding="async"><div class="yr">2026</div><h3>Building</h3><p>Studying at WIUT and launching japanuniversal.com as CTO of Japan Universal Shop.</p></div>
   </div>
 </section>
 
@@ -487,7 +502,7 @@ footer a:hover{color:var(--fg)}
 
 
 const LQ={"img/globe-japan.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAoACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkotJjQDPJqZrHA+UjFajQHHvS29qJ5NhYL7mtIz7HG5zvZmBNYxBSZCKyri22HKHK1s67CbOdkD7gayI5CDzyKuUUzaDZ2JmLc5xVC9u/JYMjYIqJrkm25yGrMm3OhLE5q40+XU54KTd5Db25e6bcx6VU5BzT1BpCpzQzpRft7pSoWTqKdOySHKiiirTuZ8iTuNEEewseDVbaC21aKKJKw4bn/9k=", "img/globe-tashkent.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAoACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzi3tWlPPAq6bGFQMEsa1La3iK8npU00QjiLRqGIra0Y7mDqNuyMX+yy4yuR9az54HhchhXWQh5IQWGDVDUbdSPmHWpspbAqjTszcbTkWYMrcHtTvKSLcCQD70wznZljjFYWo6jLPLgNwvpSUZPRsUZRnqkb5dEQ9KydTdTF7npVOW+ZrZU3cjrSBzNEAzZrSFO2pD5tLllr6O6tCFOGPWstwFcgHNFFVDY0UVF2QwxsxyKDJ9nUjOWoooqOy0LSuf/9k=", "img/jus.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAoACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD0TcvpRuX0plFSUPLJjkUgKZzimGkHFAC7hSbhUTrls0ImTyaQE1VLi/gt5RDI4V2HGatjpxXE+OrgWs0coxuA4oA3b2PUzcE27qE7ZqXT1v1c/a3Ur2xRRQBprXE+P4EnMaMwU+tFFAH/2Q==", "img/g1-baby.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAqACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDfjASMt6CuI1oXl9NJIATGpwK7uPa8RU9xis8afLFbyIihgWq2xRV2cHYvdWFykq5GDzXqthL9psopT1Zea4ufTna7MZxiu40uEQWEcZ7CpTHONjGtJHnKmIZUnrWpqJaCxPl/exWTpDCC0MoPCis/UNenkY+Wvyg4NRC8twemxEDNJdKy53E8111hM7RBG6gVyCXszgFAoPqK0tK1Es5EkgXHetbJIbvIghVrbRZA5JNYUT5s5ia6LUP+PCWuch/48JfrSgTJ6EdhJKyGNe9Ll0kZCSDUll98Vdt1B1DkA8d6b2NINrQ//9k=", "img/g2-fukuoka.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAbACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDVe8jjm2lxilN5CW+Vs1yP2p5Sxwea1La2kitUkfI3c81XNoRGN3Y2ILsSyFemK0reXA4aubwhcGNznvQ890CI7c5qt0JqzMizSR2XYvGfSulvHH9nhcYYLUcEaIvyqBTtR/48GPcCoSsaJW3OdhluFlYMw56V0GnKEjBb7xrkLKRzcHLE812FnzEufSm79Ru3Q//Z", "img/g3-school.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAYACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDUvXmnQIHJx3pIp7mKLb5mfY0pRkjOTzWTeak9l/rl3Z6Yp6CsWblZZSG3YNZ86uucnmom19SMiI1A+pfaeIkIb3qXZlK52t3psxt2I6gVyTtuuTHOu4Kcc0UVMG3uNqxYaG22/wCrWq0qwwoWVADRRTk7EH//2Q==", "img/g4-karate.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAArACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwB1pqsUvRgavrdwNja4ya5C30ybTGk+0Hgr1FUoJJfMYpK2AeKwcF3NlJs9DWVVAYMKQzKScGuRtrm4aN90hJA4pjX95a2TTSc88VPs7j5rbm9LbJegJcOVHrWbd6QkDqtsScmuggsFaR8y5bqF9KikAjcbhkjiqi1LQFdMrRaLbwpueQksORUF7DAbGSEJx2rbij81Bu6mnS6fGUGRROai7CinLUls7OOOZpy3zEdzXJ65eXNvqDCH5hnjFbbSyDgOayrJRLeymQbju71NKNtWOpdOxpeGLuWcO13gEdBW808bHG01g6WoGtOuPlx0rcYDzcY4pzpKTuQqvIkj/9k=", "img/g5-sea.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAArACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC5bx/vR2q4YckVnaiWjtiyHB9qm8O3Ety5SVs49a6cPVUVZmNem37yJZ4D2psVqT2rfe2Rl6CmC22jgV1+1Vjk5Xc5G81O2mixEwYim6Jd+XO7sMA9MVkT2It4AF+VWPJ70QyPCyiMlkBrzI3TPSdmrM7sXi7ciTFSLdFh8sgNc19sVk2uRyKgtnmllZIZCMdOa25+6MfZdUyTXHgit8uudvSsG21GHa3FW/FDE7Vzx6VzUX3m+lYxvsbS1Nx7gTISpwak0y7ksnJkG5axIGIbgnrW04BhU1o0Rex//9k=", "img/g6-family.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAArACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDVtwlugLnAqvfvC15bsx+Qnms2bUhfgwQthh2qFLj7Ym04VoeCD3rm9lKGrOhSU9EehW+n6c8KuoBBHWpPstgn8INcWdYuBZpDGhQrwD61reF9Te4eSO8AGOhNbrlZg1JHm0Uj2OpB2OCDzVyyvYZNUbzDiNmySKn8W2Sx3q+UAA3Oay7WOJLfL9c0pTUo3NIRcZ2OpvdSgkuVhtdpRBVB9RvYZmMCADvisiKQRXQPY966G3uLN7QiJt0nesrtanS1BKz3KXiNzPNH5YNULHS7q6Q7VbANdWlvDJqADxqwHrXQQQxRRYjjVfoKwVS0UhezvK550dNlWRtyn5RjpWj4b0xnZy4x9a7J4YiDmNfyqCCNELbFA+lN1LqwShrc/9k=", "img/g7-gym.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAVACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDHnTyvFwXPetrUrK4WKS4jnIAGcVgsJn8Ri4KMV3dcV1N/crJYSIqNkrQ2gUWYGjm8vT+8uCgJwKj1We7tNSW1S4LA96NEaU3awFCqoc5o1e1lfV1lUcA03a1xWdzfIUTjCirbYZCCBRRXOzpRXs4I0n3BRkmn3dvH52cUUUJie5//2Q==", "img/hero.webp": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAA5ACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCcJUix1YWL2qVYq6nI57FVYqkEVWli9qkEXtUuRXKOWGpFh9qsqi1JhFGSQBXM6puoFYQ04RVYQowypBFPCiodZFKmzmV1c+hrH1zxPLFayRxqVY8Zrn21ac8g4rOvLuS5TEh707RFzyOz8N+IJpbLbLyVrWbW5h90V55YXsltGAhrSj11xw6A1Dpwb2KVWVrXMEvxxTeT1oFA71ojEevApc03tSjrQM//2Q=="};
-document.querySelectorAll('img[src^="img/"]').forEach(img=>{
+document.querySelectorAll('img[src^="img/"]:not(.thumb)').forEach(img=>{
   const box=img.parentElement,lq=LQ[img.getAttribute('src')];
   if(lq){box.style.backgroundImage='url('+lq+')';box.style.backgroundPosition=getComputedStyle(img).objectPosition;}
   box.classList.add('lz');
@@ -617,6 +632,18 @@ if(FINE&&!RM){
   });
 }
 
+
+
+// journey: floating photo that follows the cursor
+if(FINE&&!RM){
+  const jb=document.getElementById('jimg'),ji=jb.querySelector('img');let jx=-999,jy=-999,tx=-999,ty=-999,jon=false,jr=0,tr=0;
+  document.querySelectorAll('.row.has-img').forEach(r=>{
+    r.addEventListener('mouseenter',e=>{const s=r.dataset.img;if(ji.getAttribute('src')!==s)ji.src=s;jon=true;jb.classList.add('on');document.getElementById('cur').classList.add('big');tx=e.clientX;ty=e.clientY;if(jx<-900){jx=tx;jy=ty;}});
+    r.addEventListener('mouseleave',()=>{jon=false;jb.classList.remove('on');document.getElementById('cur').classList.remove('big');});
+    r.addEventListener('mousemove',e=>{tr=Math.max(-8,Math.min(8,(e.clientX-tx)*.6));tx=e.clientX;ty=e.clientY;});
+  });
+  const jt=()=>{jx+=(tx-jx)*.14;jy+=(ty-jy)*.14;jr+=(tr-jr)*.1;tr*=.9;jb.style.transform='translate3d('+(jx+28)+'px,'+(jy-150)+'px,0) rotate('+jr+'deg) scale('+(jon?1:.85)+')';requestAnimationFrame(jt)};jt();
+}
 
 // ---- polish v3 ----
 const prog=document.getElementById('prog');
