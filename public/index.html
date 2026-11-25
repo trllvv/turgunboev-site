@@ -94,6 +94,22 @@ section{padding:clamp(90px,14vw,180px) 0}
 .big{font-size:clamp(52px,8vw,128px)}
 .split .big{font-size:clamp(44px,6vw,104px)}
 
+
+/* polish v3 */
+#prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:var(--fg);transform-origin:left;transform:scaleX(0);pointer-events:none;opacity:.85}
+.links a.on{color:var(--fg)}
+.links a.on::after{transform:scaleX(1);transform-origin:left}
+.links a{color:rgba(243,241,236,.72);transition:color .4s}
+.links a:hover{color:var(--fg)}
+.big-name{font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:clamp(56px,16.5vw,300px);line-height:.85;letter-spacing:-.005em;white-space:nowrap;color:var(--fg);padding:clamp(40px,6vw,80px) 0 clamp(10px,2vw,24px);overflow:hidden}
+.big-name span{display:inline-block;transform:translateY(100%);transition:transform 1.4s var(--ease)}
+.big-name.in span{transform:none}
+.foot-row{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.totop{display:inline-flex;align-items:center;gap:10px;letter-spacing:.16em;text-transform:uppercase;min-height:44px}
+.totop svg{transition:transform .5s var(--ease)}
+.totop:hover svg{transform:translateY(-4px)}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.scr{display:inline-block}
 /* motion v2 */
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
@@ -173,7 +189,12 @@ body.menu{overflow:hidden}
 .gl figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .gl figcaption b{font-family:Anton,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(20px,2vw,28px)}
 .gl .label::before{display:none}
-@media (max-width:600px){.globes{grid-template-columns:1fr}}
+@media (max-width:600px){
+  .globes{gap:12px}
+  .gl figcaption{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:12px;padding-bottom:12px}
+  .gl figcaption .label{font-size:10px;letter-spacing:.2em}
+  .gl figcaption b{font-size:clamp(15px,4.6vw,20px);line-height:1.1}
+}
 /* growing up - sticky horizontal reel */
 .reel{position:relative;padding:0}
 .reel-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
@@ -219,7 +240,7 @@ body.menu{overflow:hidden}
 .btn.fill::before{background:var(--bg)}
 .btn.fill:hover{color:var(--fg)}
 footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--mut)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer .wrap{display:block}
 footer .soc{display:flex;gap:28px;letter-spacing:.16em;text-transform:uppercase}
 footer a:hover{color:var(--fg)}
 
@@ -249,7 +270,7 @@ footer a:hover{color:var(--fg)}
   .shot .media{height:auto;width:100%}
   .bar{display:none}
   .card[aria-hidden="true"]{display:none}
-  .reel-head::after{content:"Swipe →";font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+  .reel-head::after{content:"Swipe →";font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);animation:nudge 1.8s var(--ease) infinite}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -260,6 +281,7 @@ footer a:hover{color:var(--fg)}
 </head>
 <body class="loading">
 
+<div id="prog" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>VIEW</span></div>
 <div id="loader" aria-hidden="true"><span class="name">Turgunboev Bekhzod</span><span id="count">0</span></div>
 
@@ -440,10 +462,14 @@ footer a:hover{color:var(--fg)}
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Turgunboev Bekhzod</span>
-    <div class="soc">
-      <a href="https://instagram.com/tllfvv">Instagram</a>
-      <a href="https://t.me/tllfvv">Telegram</a>
+    <div class="big-name rv" aria-hidden="true"><span>Turgunboev</span></div>
+    <div class="foot-row">
+      <span>© 2026 Turgunboev Bekhzod</span>
+      <div class="soc">
+        <a href="https://instagram.com/tllfvv" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://t.me/tllfvv" target="_blank" rel="noopener">Telegram</a>
+      </div>
+      <a href="#top" class="totop">Back to top <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
     </div>
   </div>
 </footer>
@@ -581,6 +607,31 @@ if(FINE&&!RM){
     b.addEventListener('mouseleave',()=>{b.style.transition='transform .7s cubic-bezier(.16,1,.3,1),color .6s';b.style.transform='';setTimeout(()=>b.style.transition='',700)});
   });
 }
+
+
+// ---- polish v3 ----
+const prog=document.getElementById('prog');
+const spyLinks=[...document.querySelectorAll('.links a')];
+const spySecs=spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function polish(){
+  const max=document.documentElement.scrollHeight-innerHeight;
+  prog.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')';
+  let cur=null;const mid=innerHeight*0.35;
+  spySecs.forEach((sec,i)=>{const r=sec.getBoundingClientRect();if(r.top<=mid&&r.bottom>mid)cur=i;});
+  spyLinks.forEach((a,i)=>a.classList.toggle('on',i===cur));
+}
+let ptick=false;addEventListener('scroll',()=>{if(!ptick){ptick=true;requestAnimationFrame(()=>{polish();ptick=false;});}},{passive:true});
+polish();
+// text scramble on small labels when they appear
+const GL='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+function scramble(el){
+  const node=[...el.childNodes].find(n=>n.nodeType===3&&n.textContent.trim());
+  if(!node||RM)return;const final=node.textContent;let f=0;const total=18;
+  const step=()=>{f++;node.textContent=final.split('').map((c,i)=>{if(c===' '||c==='-'||c==='·')return c;return i<final.length*f/total?c:GL[(Math.random()*GL.length)|0];}).join('');if(f<total)requestAnimationFrame(step);else node.textContent=final;};
+  step();
+}
+const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){scramble(e.target);sio.unobserve(e.target);}}),{threshold:.6});
+document.querySelectorAll('section .label, .gl figcaption .label').forEach(l=>sio.observe(l));
 
 frame();
 }
