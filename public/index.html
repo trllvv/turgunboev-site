@@ -111,6 +111,13 @@ section{padding:clamp(90px,14vw,180px) 0}
 
 
 
+
+@media (hover:none),(pointer:coarse){
+  nav{transition:none}
+  .hero{height:100svh}
+  .media img{transform:none}
+  #heroTxt{will-change:auto}
+}
 /* kinetic hero + word reveal + clock */
 .hero .shade{position:absolute;inset:0;z-index:1;background:#070707;opacity:0;pointer-events:none}
 #heroTxt{transform-origin:0 100%;will-change:transform,opacity}
@@ -587,7 +594,7 @@ const par=[...document.querySelectorAll('[data-par]')];
 const nav=document.getElementById('nav');let last=0,tick=false;
 function frame(){
   const vh=innerHeight,y=scrollY;
-  par.forEach(img=>{
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches)par.forEach(img=>{
     const r=img.parentElement.getBoundingClientRect();
     if(r.bottom<0||r.top>vh)return;
     const p=(r.top+r.height/2-vh/2)/vh;
@@ -658,7 +665,7 @@ function heroFx(){hfQ=false;
   htxt.style.opacity=String(Math.max(0,1-p*1.5));
   heroShade.style.opacity=String(p*0.75);
 }
-if(!RM){addEventListener('scroll',()=>{if(!hfQ){hfQ=true;requestAnimationFrame(heroFx);}},{passive:true});}
+if(!RM&&FINE){addEventListener('scroll',()=>{if(!hfQ){hfQ=true;requestAnimationFrame(heroFx);}},{passive:true});}
 // count up
 document.querySelectorAll('.stats b').forEach(b=>{
   const v=parseFloat(b.textContent);if(isNaN(v)||RM)return;
@@ -688,7 +695,8 @@ if(FINE&&!RM){
 const wr=document.querySelector('.wr');let wrWords=[];
 if(wr){const txt=wr.textContent.trim();wr.textContent='';txt.split(/\s+/).forEach((w,i,arr)=>{const sp=document.createElement('span');sp.className='w';sp.textContent=w;wr.appendChild(sp);if(i<arr.length-1)wr.appendChild(document.createTextNode(' '));});wrWords=[...wr.querySelectorAll('.w')];}
 let wrQ=false;
-function wrFx(){wrQ=false;if(!wr)return;const r=wr.getBoundingClientRect(),vh=innerHeight;
+let wrVH=innerHeight,wrW=innerWidth;addEventListener('resize',()=>{if(innerWidth!==wrW){wrW=innerWidth;wrVH=innerHeight;}});
+function wrFx(){wrQ=false;if(!wr)return;const r=wr.getBoundingClientRect(),vh=wrVH;
   const p=Math.min(1,Math.max(0,(vh*0.88-r.top)/(vh*0.5)));const n=Math.round(p*wrWords.length);
   wrWords.forEach((w,i)=>w.classList.toggle('on',i<n));}
 if(RM){wrWords.forEach(w=>w.classList.add('on'));}else{addEventListener('scroll',()=>{if(!wrQ){wrQ=true;requestAnimationFrame(wrFx);}},{passive:true});wrFx();}
