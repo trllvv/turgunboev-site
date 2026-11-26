@@ -428,7 +428,7 @@ footer a:hover{color:var(--fg)}
       <h2 class="disp sr big" style="margin-top:24px">Two places.<br>One goal.</h2>
     </div>
     <div style="grid-column:7 / span 6">
-      <p class="lead wr">I'm Bekhzod - born in Uzbekistan, grown up in Japan, now building in Tashkent.</p>
+      <p class="lead wr">I'm Bekhzod. I was born in Uzbekistan, grew up in Japan, and now I'm building in Tashkent.</p>
       <div class="body rv d1" style="margin-top:32px">
         <p>I study at Westminster International University in Tashkent and run the tech side of our family business, Japan Universal Shop - I designed and launched its online store myself.</p>
         <p>I grew up between two cultures, learned three languages, and I'm the eldest son of 6 brothers. Becoming an entrepreneur.</p>
@@ -540,7 +540,7 @@ footer a:hover{color:var(--fg)}
       <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-cert.webp" srcset="img/n-cert-760.webp 760w, img/n-cert.webp 1240w" sizes="(max-width:900px) 46vw, 22vw" width="1240" height="1754" alt="AI Literacy for Students certificate" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
     </div>
     <div class="now-row rv">
-      <div class="now-txt"><span class="now-n">05</span><h3>Travelling</h3><p>Seeing the world is part of the plan.</p></div>
+      <div class="now-txt"><span class="now-n">05</span><h3>Travelling</h3><p>Seeing the world is part of my plan.</p></div>
       <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/t-plane.webp" srcset="img/t-plane-760.webp 760w, img/t-plane.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Flying over Fukuoka" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-mirror.webp" srcset="img/t-mirror-760.webp 760w, img/t-mirror.webp 1080w" sizes="(max-width:900px) 46vw, 22vw" width="1080" height="1920" alt="Red moon over the sea, seen from the car" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-incheon.webp" srcset="img/t-incheon-760.webp 760w, img/t-incheon.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Incheon Airport" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-tree.webp" srcset="img/t-tree-760.webp 760w, img/t-tree.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Looking at the sea in Japan" loading="lazy" decoding="async" style="object-position:30% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-beach.webp" srcset="img/t-beach-760.webp 760w, img/t-beach.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="A beach in Fukuoka" loading="lazy" decoding="async" style="object-position:50% 60%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-bike.webp" srcset="img/t-bike-760.webp 760w, img/t-bike.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Bike under a sunset sky" loading="lazy" decoding="async" style="object-position:50% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-night.webp" srcset="img/t-night-760.webp 760w, img/t-night.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Evening by the sea" loading="lazy" decoding="async" style="object-position:30% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-camera-tile.webp" srcset="img/n-camera-tile-760.webp 760w, img/n-camera-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="Filming the night sky" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
     </div>
     </div>
@@ -630,6 +630,11 @@ document.querySelectorAll('img[src^="img/"]:not(.thumb)').forEach(img=>{
 // photos that failed on a weak connection reload by themselves when the signal returns (or on tap)
 function retryImg(img){const box=img.parentElement;box.classList.remove('err','done');
   const base=(img.getAttribute('src')||'').split('?')[0];img.removeAttribute('srcset');img.src=base+'?r='+Date.now();}
+if('IntersectionObserver' in window&&!LITE){const pre=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;pre.unobserve(e.target);
+    (e.target.tagName==='IMG'?[e.target]:e.target.querySelectorAll('img[loading="lazy"]')).forEach(i=>i.loading='eager');}),{rootMargin:'1400px 0px 1400px 0px'});
+  // photos inside the sideways reel load together as the reel gets close
+  document.querySelectorAll('img[loading="lazy"]').forEach(i=>{const st=i.closest('.strip');if(!st)pre.observe(i);});
+  document.querySelectorAll('.strip').forEach(st=>pre.observe(st));}
 function retryAll(){[...failed].forEach(retryImg);}
 const heroImg=document.querySelector('.hero .bg img');
 const heroReady=new Promise(r=>{if(heroImg.complete&&heroImg.naturalWidth)r();else{heroImg.addEventListener('load',r);heroImg.addEventListener('error',r);setTimeout(r,6000);}});
