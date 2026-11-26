@@ -44,6 +44,33 @@ a,button,.ph-btn,.shot{touch-action:manipulation;-webkit-tap-highlight-color:tra
 }
 @media (max-width:900px){.strip{overscroll-behavior-x:contain}}
 
+/* ===== iPhone / Android smoothness pass =====
+   Scroll-linked effects run inside the browser's own scrolling engine (CSS scroll timelines),
+   so they move in perfect step with the finger. JavaScript only takes over on browsers without it. */
+@supports (animation-timeline: scroll()){
+  html.stl .hero .bg img.ok{animation:stlHeroImg linear both;animation-timeline:scroll(root);animation-range:0 130vh}
+  html.stl #heroTxt{animation:stlHeroTxt linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  html.stl #heroShade{animation:stlShade linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  html.stl nav::before{opacity:0;animation:stlNav linear both;animation-timeline:scroll(root);animation-range:55vh 90vh}
+  html.stl #prog{animation:stlProg linear both;animation-timeline:scroll(root)}
+}
+html.stl nav::before{border-bottom-color:rgba(243,241,236,.08)}
+@keyframes stlHeroImg{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,36.4vh,0)}}
+@keyframes stlHeroTxt{0%{transform:none;opacity:1}66.7%{opacity:0}100%{transform:translate3d(0,-18vh,0) scale(1.14);opacity:0}}
+@keyframes stlShade{from{opacity:0}to{opacity:.75}}
+@keyframes stlNav{from{opacity:0}to{opacity:1}}
+@keyframes stlProg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (hover:none),(pointer:coarse){
+  /* fewer GPU layers: phones keep memory for the photos instead of 30 idle layers */
+  .media{transform:none;-webkit-backface-visibility:visible;backface-visibility:visible}
+  .ph-btn{perspective:none}
+  .btn,.line>span{will-change:auto}
+  /* globes: fade-rise (GPU) instead of clip reveal (repainted every frame on iPhone) */
+  .clip,.clip.in{clip-path:none}
+  .clip{opacity:0;transform:translate3d(0,26px,0);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+  .clip.in{opacity:1;transform:none}
+}
+
 /* smooth on every device */
 [data-par],.hero .bg img{will-change:transform;backface-visibility:hidden}
 .media{contain:paint}
@@ -688,7 +715,7 @@ function frame(y,sy){
     nav.classList.toggle('hide',y>last+2&&y>300?true:(y<last-2?false:nav.classList.contains('hide')));
   }
   const sol=y>80;if(sol!==navSol){navSol=sol;nav.classList.toggle('solid',sol);}
-  const nb=Math.min(1,Math.max(0,(y-vh*0.55)/(vh*0.35))).toFixed(3);if(nb!==navNb){navNb=nb;nav.style.setProperty('--nb',nb);}
+  const nb=STL?navNb:Math.min(1,Math.max(0,(y-vh*0.55)/(vh*0.35))).toFixed(3);if(nb!==navNb){navNb=nb;nav.style.setProperty('--nb',nb);}
   last=y;
 }
 let lastW=innerWidth;addEventListener('resize',()=>{if(mobile.matches&&innerWidth===lastW)return;lastW=innerWidth;sizeReel();measure();kick();});
@@ -803,7 +830,7 @@ const prog=document.getElementById('prog');
 const spyLinks=[...document.querySelectorAll('.links a')];
 const spySecs=spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 let spyCur=-2,progV='';function polish(y,sy){
-  const pv=Math.min(1,Math.max(0,sy/M.max)).toFixed(4);if(pv!==progV){progV=pv;prog.style.transform='scaleX('+pv+')';}
+  const pv=STL?progV:Math.min(1,Math.max(0,sy/M.max)).toFixed(4);if(pv!==progV){progV=pv;prog.style.transform='scaleX('+pv+')';}
   let cur=-1;const mid=y+SVH*0.35;
   M.spy.forEach((o,i)=>{if(o.top<=mid&&o.bot>mid)cur=i;});
   if(cur!==spyCur){spyCur=cur;spyLinks.forEach((a,i)=>a.classList.toggle('on',i===cur));}
@@ -813,11 +840,13 @@ let spyCur=-2,progV='';function polish(y,sy){
 // Computers: Lenis already glides the page, so effects follow it 1:1.
 // Phones/tablets: the page scrolls natively (fastest, no hijacking) and every scroll-linked
 // effect eases toward the finger with a frame-rate independent glide, so it feels the same.
-const GLIDE=FINE?1:0.2;let sy=scrollY,running=false,lt=0;
+const STL=!RM&&window.CSS&&CSS.supports&&CSS.supports('animation-timeline: scroll()');if(STL)document.documentElement.classList.add('stl');
+// no artificial glide on touch: on iPhone the page scrolls on its own thread, so lag looks like shaking
+const GLIDE=1;let sy=scrollY,running=false,lt=0;
 function step(t){
   const y=scrollY,dt=lt?Math.min(64,t-lt):16.7;lt=t;
   if(GLIDE>=1||RM)sy=y;else{sy+=(y-sy)*(1-Math.pow(1-GLIDE,dt/16.7));if(Math.abs(y-sy)<0.15)sy=y;}
-  frame(y,RM?y:sy);if(!RM)heroFx(sy);wrFx(y);polish(y,sy);
+  frame(y,RM?y:sy);if(!RM&&!STL)heroFx(sy);wrFx(y);polish(y,sy);
   if(sy!==y)requestAnimationFrame(step);else{running=false;lt=0;}
 }
 function kick(){if(!running){running=true;requestAnimationFrame(step);}}
