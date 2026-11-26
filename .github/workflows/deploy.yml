@@ -12,6 +12,8 @@ jobs:
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+      - name: Stamp offline cache with this version
+        run: sed -i "s/__BUILD__/${GITHUB_SHA::8}/" public/sw.js
       - name: Deploy to Cloudflare
         if: ${{ env.CF_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
