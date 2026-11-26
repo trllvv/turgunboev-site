@@ -44,20 +44,23 @@ a,button,.ph-btn,.shot{touch-action:manipulation;-webkit-tap-highlight-color:tra
 }
 @media (max-width:900px){.strip{overscroll-behavior-x:contain}}
 
+
 /* ===== iPhone / Android smoothness pass =====
    Scroll-linked effects run inside the browser's own scrolling engine (CSS scroll timelines),
    so they move in perfect step with the finger. JavaScript only takes over on browsers without it. */
 @supports (animation-timeline: scroll()){
-  html.stl .hero .bg img.ok{animation:stlHeroImg linear both;animation-timeline:scroll(root);animation-range:0 130vh}
+  html.stl .hero .bg img.ok{animation:stlHeroImg linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  html.stl .hero{animation:stlHeroHide step-end both;animation-timeline:scroll(root);animation-range:100vh 101vh}
   html.stl #heroTxt{animation:stlHeroTxt linear both;animation-timeline:scroll(root);animation-range:0 100vh}
   html.stl #heroShade{animation:stlShade linear both;animation-timeline:scroll(root);animation-range:0 100vh}
   html.stl nav::before{opacity:0;animation:stlNav linear both;animation-timeline:scroll(root);animation-range:55vh 90vh}
   html.stl #prog{animation:stlProg linear both;animation-timeline:scroll(root)}
 }
 html.stl nav::before{border-bottom-color:rgba(243,241,236,.08)}
-@keyframes stlHeroImg{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,36.4vh,0)}}
-@keyframes stlHeroTxt{0%{transform:none;opacity:1}66.7%{opacity:0}100%{transform:translate3d(0,-18vh,0) scale(1.14);opacity:0}}
-@keyframes stlShade{from{opacity:0}to{opacity:.75}}
+@keyframes stlHeroImg{from{transform:scale(1)}to{transform:scale(1.08)}}
+@keyframes stlHeroTxt{0%{transform:none;opacity:1}70%{opacity:0}100%{transform:translate3d(0,-10vh,0);opacity:0}}
+@keyframes stlShade{from{opacity:0}to{opacity:.8}}
+@keyframes stlHeroHide{from{visibility:visible}to{visibility:hidden}}
 @keyframes stlNav{from{opacity:0}to{opacity:1}}
 @keyframes stlProg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (hover:none),(pointer:coarse){
@@ -396,6 +399,10 @@ footer a:hover{color:var(--fg)}
   .bar{display:none}
   .reel-head::after{content:"Swipe →";font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
 }
+/* ===== hero v4: the photo stays still and the page slides over it like a card ===== */
+.hero{position:sticky;top:0;z-index:0}
+.hero~section,.hero~footer{position:relative;z-index:1;background:var(--bg)}
+#about{border-radius:clamp(22px,3vw,36px) clamp(22px,3vw,36px) 0 0;box-shadow:0 -30px 60px -18px rgba(0,0,0,.55)}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
   .ln>span{transform:none}.ph-btn{opacity:1;transform:none}.ph-btn .media{transform:none}.label::before{transform:none}body::after{display:none}
@@ -765,12 +772,13 @@ if(window.Lenis&&!RM&&FINE){
 // hero parallax
 const heroImgEl=document.querySelector('.hero .bg img');
 const heroShade=document.getElementById('heroShade');let hfQ=false;
-let hfLast=-1;function heroFx(sy){
+let hfLast=-1;const heroEl=document.getElementById('top');function heroFx(sy){
   const y=Math.max(0,Math.round(sy*4)/4);if(y===hfLast)return;hfLast=y;const _y=y,vh=SVH;if(y>vh*1.3){if(hfQ)return;hfQ=true;}else hfQ=false;const p=Math.min(1,y/vh);
-  heroImgEl.style.transform='translate3d(0,'+(y*0.28).toFixed(2)+'px,0)';
-  htxt.style.transform='translate3d(0,'+(-y*0.18).toFixed(2)+'px,0) scale('+(1+p*0.14).toFixed(4)+')';
-  htxt.style.opacity=Math.max(0,1-p*1.5).toFixed(3);
-  heroShade.style.opacity=(p*0.75).toFixed(3);
+  heroImgEl.style.transform='scale('+(1+p*0.08).toFixed(4)+')';
+  htxt.style.transform='translate3d(0,'+(-p*vh*0.1).toFixed(2)+'px,0)';
+  htxt.style.opacity=Math.max(0,1-p/0.7).toFixed(3);
+  heroShade.style.opacity=(p*0.8).toFixed(3);
+  heroEl.style.visibility=y>vh*1.02?'hidden':'';
 }
 // count up
 document.querySelectorAll('.stats b').forEach(b=>{
