@@ -118,7 +118,6 @@ section{padding:clamp(90px,14vw,180px) 0}
 @media (hover:none),(pointer:coarse){
   nav{transition:none}
   .hero{height:100svh}
-  .media img{transform:none}
   #heroTxt{will-change:auto}
 }
 /* kinetic hero + word reveal + clock */
@@ -608,6 +607,7 @@ let opened=false;
 function openIntro(){if(opened)return;opened=true;ld.classList.add('done');body.classList.remove('loading');body.classList.add('ready');if(lenis)lenis.start();setTimeout(()=>{ld.style.display='none'},1400);}
 setTimeout(openIntro,RMQ?0:560);
 heroReady.then(()=>{});
+let SVH=innerHeight,SVW=innerWidth;addEventListener('resize',()=>{if(innerWidth!==SVW||Math.abs(innerHeight-SVH)>160){SVW=innerWidth;SVH=innerHeight;}});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0,rootMargin:'0px 0px -6% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 // clip-path hides the box from IntersectionObserver, so watch its parent instead
@@ -624,8 +624,8 @@ function sizeReel(){
 const par=[...document.querySelectorAll('[data-par]')];
 const nav=document.getElementById('nav');let last=0,tick=false;
 function frame(){
-  const vh=innerHeight,y=scrollY;
-  if(matchMedia('(hover:hover) and (pointer:fine)').matches)par.forEach(img=>{
+  const vh=SVH,y=scrollY;
+  par.forEach(img=>{
     const r=img.parentElement.getBoundingClientRect();
     if(r.bottom<0||r.top>vh)return;
     const p=(r.top+r.height/2-vh/2)/vh;
@@ -691,13 +691,13 @@ if(window.Lenis&&!RM&&FINE){
 const heroImgEl=document.querySelector('.hero .bg img');
 const heroShade=document.getElementById('heroShade');let hfQ=false;
 function heroFx(){hfQ=false;
-  const y=Math.max(0,scrollY),vh=innerHeight;if(y>vh*1.3)return;const p=Math.min(1,y/vh);
-  if(FINE)heroImgEl.style.transform='translate3d(0,'+(y*0.28)+'px,0)';
+  const y=Math.max(0,scrollY),vh=SVH;if(y>vh*1.3)return;const p=Math.min(1,y/vh);
+  heroImgEl.style.transform='translate3d(0,'+(y*0.28)+'px,0)';
   htxt.style.transform='translate3d(0,'+(-y*0.18)+'px,0) scale('+(1+p*0.14)+')';
   htxt.style.opacity=String(Math.max(0,1-p*1.5));
   heroShade.style.opacity=String(p*0.75);
 }
-if(!RM&&FINE){addEventListener('scroll',()=>{if(!hfQ){hfQ=true;requestAnimationFrame(heroFx);}},{passive:true});}
+if(!RM){addEventListener('scroll',()=>{if(!hfQ){hfQ=true;requestAnimationFrame(heroFx);}},{passive:true});}
 // count up
 document.querySelectorAll('.stats b').forEach(b=>{
   const v=parseFloat(b.textContent);if(isNaN(v)||RM)return;
