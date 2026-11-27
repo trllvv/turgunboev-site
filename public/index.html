@@ -837,7 +837,15 @@ if(window.Lenis&&!RM&&FINE){
     if(el!==null){e.preventDefault();lenis.scrollTo(el,{duration:1.6,offset:id==='#top'?0:-10});}
   }));
 }
-if(!lenis)document.querySelectorAll('a[href="#top"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();scrollTo({top:0,behavior:RM?'auto':'smooth'});}));
+// phones: our own glide to the top. iPhone's built-in smooth scroll crawls through the last few hundred pixels,
+// which is exactly where the hero subtitle sits under About, so it showed up late. This curve lands crisply.
+function glideTop(){const y0=scrollY;if(RM||y0<2){scrollTo({top:0,behavior:'instant'});return;}
+  const D=Math.min(1400,Math.max(800,y0*0.12)),t0=performance.now();let stop=false;
+  const cancel=()=>{stop=true;};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
+  const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+  (function f(t){if(stop)return;const k=Math.min(1,(t-t0)/D);scrollTo({top:Math.round(y0*(1-ease(k))),behavior:'instant'});if(k<1)requestAnimationFrame(f);
+    else{removeEventListener('touchstart',cancel);removeEventListener('wheel',cancel);}})(t0);}
+if(!lenis)document.querySelectorAll('a[href="#top"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();glideTop();}));
 // hero parallax
 const heroImgEl=document.querySelector('.hero .bg picture img');
 const heroShade=document.getElementById('heroShade');let hfQ=false;
