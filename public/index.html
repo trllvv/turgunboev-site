@@ -854,15 +854,19 @@ if(window.Lenis&&!RM&&FINE){
   const loop=t=>{lenis.raf(t);requestAnimationFrame(loop)};requestAnimationFrame(loop);
   document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     const id=a.getAttribute('href');const el=id==='#top'?0:document.querySelector(id);
-    if(el!==null){e.preventDefault();if(id==='#top'){hideMeta();lenis.scrollTo(0,{duration:1.6,onComplete:riseMeta});setTimeout(()=>{if(heroMeta.classList.contains('pre'))riseMeta();},2200);return;}
+    if(el!==null){e.preventDefault();if(id==='#top'){hideMeta();lenis.scrollTo(0,{duration:1.6,onComplete:riseMeta});setTimeout(()=>{if(metaKids[0].style.opacity==='0')riseMeta();},2200);return;}
       lenis.scrollTo(el,{duration:1.6,offset:-10});}
   }));
 }
 // phones: our own glide to the top. iPhone's built-in smooth scroll crawls through the last few hundred pixels,
 // which is exactly where the hero subtitle sits under About, so it showed up late. This curve lands crisply.
 const heroMeta=document.querySelector('.hero .meta');
-function hideMeta(){if(RM)return;heroMeta.classList.remove('rise');heroMeta.classList.add('pre');}
-function riseMeta(){if(RM)return;heroMeta.classList.remove('rise');void heroMeta.offsetWidth;heroMeta.classList.remove('pre');heroMeta.classList.add('rise');}
+// back to top: hide the subtitle + scroll cue on the way up, then raise them from below on arrival (Web Animations: reliable in in-app browsers)
+const metaKids=[...heroMeta.children];let metaAnims=[];
+function hideMeta(){if(RM)return;metaAnims.forEach(a=>a.cancel());metaAnims=[];metaKids.forEach(k=>{k.style.opacity='0';k.style.transform='translate3d(0,28px,0)';});}
+function riseMeta(){if(RM)return;metaAnims.forEach(a=>a.cancel());
+  metaAnims=metaKids.map((k,i)=>{k.style.opacity='';k.style.transform='';
+    return k.animate([{opacity:0,transform:'translate3d(0,28px,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:1000,delay:60+i*140,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'});});}
 function glideTop(){const y0=scrollY;let rose=false;hideMeta();if(RM||y0<2){scrollTo({top:0,behavior:'instant'});return;}
   const D=Math.min(1400,Math.max(800,y0*0.12)),t0=performance.now();let stop=false;
   const cancel=()=>{stop=true;riseMeta();};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
