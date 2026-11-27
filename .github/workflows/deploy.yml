@@ -16,6 +16,8 @@ jobs:
         run: sed -i "s/__BUILD__/${GITHUB_SHA::8}/" public/sw.js
       - name: Stamp the Now section with this month (Tashkent time)
         run: sed -i -E "s/Updated [A-Z][a-z]+ [0-9]{4}/Updated $(TZ=Asia/Tashkent date +'%B %Y')/" public/index.html
+      - name: Version images, fonts and scripts (long browser caching, always fresh after changes)
+        run: python3 scripts/version_assets.py
       - name: Deploy to Cloudflare
         if: ${{ env.CF_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
