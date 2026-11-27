@@ -464,6 +464,11 @@ footer a:hover{color:var(--fg)}
 @keyframes edgeLeak{0%{opacity:0}18%{opacity:1}100%{opacity:0}}
 #loader.done .hz{opacity:0;transition:opacity .35s ease}
 @media (prefers-reduced-motion:reduce){#loader.done .top::after,#loader.done .bot::before{animation:none}}
+
+/* reload inside a section: the sunrise belongs to the main page only, here the page simply fades in where you were */
+html.deep #loader .lh,html.deep #loader .hz{display:none}
+html.deep #loader{background:#070707;transition:opacity .5s cubic-bezier(.4,0,.2,1)}
+html.deep #loader.done{opacity:0}
 /* scroll cue: a beam of sunset light glides down a fine track */
 .hero .scroll i{position:relative;width:1px;height:60px;background:rgba(243,241,236,.16);overflow:hidden;animation:none;transform:none}
 .hero .scroll i::after{content:"";position:absolute;left:0;top:0;width:1px;height:45%;background:linear-gradient(180deg,rgba(246,179,122,0),rgba(246,179,122,.85) 55%,#F3F1EC);animation:cue 2.4s cubic-bezier(.65,0,.35,1) infinite;will-change:transform}
@@ -484,6 +489,13 @@ footer a:hover{color:var(--fg)}
 
 <div id="prog" aria-hidden="true"></div>
 <div id="cur" aria-hidden="true"><span>VIEW</span></div>
+<script>(function(){var d=document.documentElement,y=0,n=null;try{history.scrollRestoration='manual';}catch(e){}
+try{n=(performance.getEntriesByType('navigation')[0]||{}).type;}catch(e){}
+try{if(n==='reload'||n==='back_forward')y=+sessionStorage.getItem('tb_y')||0;}catch(e){}
+var h=location.hash&&location.hash!=='#top'?location.hash:'';
+// not at the top (a reload inside About/Early life/Now/Projects/Contact, or a link to a section): no sunrise, a quick fade instead
+if(h||y>innerHeight*0.5){d.classList.add('deep');window.__deep={y:y,h:h};}
+addEventListener('pagehide',function(){try{sessionStorage.setItem('tb_y',String(Math.round(scrollY)));}catch(e){}});})()</script>
 <div id="loader" aria-hidden="true"><div class="lh top"><i class="sun"></i></div><div class="lh bot"><i class="sea"></i></div><i class="hz" id="hz"></i></div>
 <script>(function(){var d=document.documentElement,w0=-1;
 // photo 1437x2560 shown as cover at 50% 72%: sea horizon y=1668, sunset glow centre x=1330
@@ -528,8 +540,10 @@ place();addEventListener('resize',place);})()</script>
   </div>
 </header>
 <script>(function(){var b=document.body,l=document.getElementById('loader');
-function open(){if(!b.classList.contains('loading'))return;b.classList.remove('loading');b.classList.add('ready');if(l){l.classList.add('done');setTimeout(function(){l.style.display='none'},1400)}}
-setTimeout(open,matchMedia('(prefers-reduced-motion: reduce)').matches?0:850);
+function open(){if(!b.classList.contains('loading'))return;b.classList.remove('loading');b.classList.add('ready');
+  var dp=window.__deep;if(dp){var t=dp.h&&document.querySelector(dp.h);if(t)t.scrollIntoView({behavior:'instant'});else scrollTo({top:dp.y,behavior:'instant'});}
+  if(l){l.classList.add('done');setTimeout(function(){l.style.display='none'},dp?600:1400)}}
+window.__deep?(document.readyState==='loading'?addEventListener('DOMContentLoaded',function(){setTimeout(open,60)}):setTimeout(open,60)):setTimeout(open,matchMedia('(prefers-reduced-motion: reduce)').matches?0:850);
 var mid=document.querySelector('.hero .mid');function md(){mid.classList.add('on')}if(mid.complete&&mid.naturalWidth)md();else mid.addEventListener('load',md);
 var im=document.querySelector('.hero .bg picture img'),src=document.querySelector('.hero picture source'),go=0;
 // full HD starts only after the light photo is on screen, so a slow connection never shows black
@@ -767,7 +781,7 @@ const body=document.body,hz=document.getElementById('hz'),ld=document.getElement
 // horizon and sun position are set once, before the first paint (see the script next to #loader)
 let opened=false;
 function openIntro(){if(opened)return;opened=true;ld.classList.add('done');body.classList.remove('loading');body.classList.add('ready');if(lenis)lenis.start();setTimeout(()=>{ld.style.display='none'},1400);}
-setTimeout(openIntro,RMQ?0:850);
+setTimeout(openIntro,(RMQ||window.__deep)?120:850);
 heroReady.then(()=>{});
 let SVH=innerHeight,SVW=innerWidth;addEventListener('resize',()=>{if(innerWidth!==SVW||Math.abs(innerHeight-SVH)>160){SVW=innerWidth;SVH=innerHeight;}});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0,rootMargin:'0px 0px -6% 0px'});
