@@ -137,7 +137,7 @@ nav.solid{background:rgba(7,7,7,.75);backdrop-filter:blur(14px)}
 .hero .kb{position:absolute;inset:0;animation:kb 26s ease-in-out 3s infinite alternate;will-change:transform}
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.07) translate3d(-1%,-1%,0)}}
 body.ready .hero .bg{transform:scale(1)}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,7,7,.35) 0%,rgba(7,7,7,0) 30%,rgba(7,7,7,0) 55%,rgba(7,7,7,.85) 100%)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,7,7,.35) 0%,rgba(7,7,7,0) 26%,rgba(7,7,7,0) 40%,rgba(7,7,7,.06) 50%,rgba(7,7,7,.16) 60%,rgba(7,7,7,.3) 70%,rgba(7,7,7,.46) 80%,rgba(7,7,7,.62) 90%,rgba(7,7,7,.74) 100%)}
 .hero .txt{position:absolute;left:0;right:0;bottom:clamp(28px,6vh,64px);z-index:2}
 .hero h1{font-size:clamp(52px,10.2vw,184px)}
 .line{display:block;overflow:hidden}
@@ -402,7 +402,8 @@ footer a:hover{color:var(--fg)}
 /* ===== hero v4: the photo stays still and the page slides over it like a card ===== */
 .hero{position:sticky;top:0;z-index:0}
 .hero~section,.hero~footer{position:relative;z-index:1;background:var(--bg)}
-#about{border-radius:clamp(22px,3vw,36px) clamp(22px,3vw,36px) 0 0;box-shadow:0 -30px 60px -18px rgba(0,0,0,.55)}
+#about{background:linear-gradient(180deg,rgba(7,7,7,0) 0,rgba(7,7,7,.12) 6vh,rgba(7,7,7,.3) 12vh,rgba(7,7,7,.52) 18vh,rgba(7,7,7,.72) 24vh,rgba(7,7,7,.87) 30vh,rgba(7,7,7,.96) 36vh,var(--bg) 42vh);padding-top:calc(clamp(90px,14vw,180px) + 22vh)}
+@media (max-width:900px){#about{padding-top:calc(72px + 20vh)}}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
   .ln>span{transform:none}.ph-btn{opacity:1;transform:none}.ph-btn .media{transform:none}.label::before{transform:none}body::after{display:none}
