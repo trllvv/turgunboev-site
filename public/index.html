@@ -448,6 +448,7 @@ footer a:hover{color:var(--fg)}
 .hero .bg{transform-origin:var(--sx,92%) var(--hy,65%)}
 
 /* back to top: the subtitle and scroll cue rise into place as you arrive */
+.hero .meta.pre>*{opacity:0;transform:translate3d(0,26px,0);transition:none}
 .hero .meta.rise>*{animation:metaRise .95s cubic-bezier(.22,1,.36,1) both}
 .hero .meta.rise>*:nth-child(2){animation-delay:.12s}
 @keyframes metaRise{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:none}}
@@ -853,19 +854,20 @@ if(window.Lenis&&!RM&&FINE){
   const loop=t=>{lenis.raf(t);requestAnimationFrame(loop)};requestAnimationFrame(loop);
   document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     const id=a.getAttribute('href');const el=id==='#top'?0:document.querySelector(id);
-    if(el!==null){e.preventDefault();if(id==='#top'){let rose=false;const chk=()=>{if(!rose&&scrollY<SVH*0.35){rose=true;removeEventListener('scroll',chk);riseMeta();}};addEventListener('scroll',chk,{passive:true});}
-      lenis.scrollTo(el,{duration:1.6,offset:id==='#top'?0:-10});}
+    if(el!==null){e.preventDefault();if(id==='#top'){hideMeta();lenis.scrollTo(0,{duration:1.6,onComplete:riseMeta});setTimeout(()=>{if(heroMeta.classList.contains('pre'))riseMeta();},2200);return;}
+      lenis.scrollTo(el,{duration:1.6,offset:-10});}
   }));
 }
 // phones: our own glide to the top. iPhone's built-in smooth scroll crawls through the last few hundred pixels,
 // which is exactly where the hero subtitle sits under About, so it showed up late. This curve lands crisply.
 const heroMeta=document.querySelector('.hero .meta');
-function riseMeta(){if(RM)return;heroMeta.classList.remove('rise');void heroMeta.offsetWidth;heroMeta.classList.add('rise');}
-function glideTop(){const y0=scrollY;let rose=false;if(RM||y0<2){scrollTo({top:0,behavior:'instant'});return;}
+function hideMeta(){if(RM)return;heroMeta.classList.remove('rise');heroMeta.classList.add('pre');}
+function riseMeta(){if(RM)return;heroMeta.classList.remove('rise');void heroMeta.offsetWidth;heroMeta.classList.remove('pre');heroMeta.classList.add('rise');}
+function glideTop(){const y0=scrollY;let rose=false;hideMeta();if(RM||y0<2){scrollTo({top:0,behavior:'instant'});return;}
   const D=Math.min(1400,Math.max(800,y0*0.12)),t0=performance.now();let stop=false;
-  const cancel=()=>{stop=true;};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
+  const cancel=()=>{stop=true;riseMeta();};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
   const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
-  (function f(t){if(stop)return;const k=Math.min(1,(t-t0)/D);const yy=Math.round(y0*(1-ease(k)));scrollTo({top:yy,behavior:'instant'});if(!rose&&yy<SVH*0.35){rose=true;riseMeta();}if(k<1)requestAnimationFrame(f);
+  (function f(t){if(stop)return;const k=Math.min(1,(t-t0)/D);const yy=Math.round(y0*(1-ease(k)));scrollTo({top:yy,behavior:'instant'});if(!rose&&k>=1){rose=true;riseMeta();}if(k<1)requestAnimationFrame(f);
     else{removeEventListener('touchstart',cancel);removeEventListener('wheel',cancel);}})(t0);}
 if(!lenis)document.querySelectorAll('a[href="#top"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();glideTop();}));
 // hero parallax
