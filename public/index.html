@@ -25,8 +25,7 @@
 <noscript><style>.wr .w{opacity:1}.ph-btn{opacity:1!important;transform:none!important}.ph-btn .media{transform:none!important}#loader{display:none}body.loading{overflow:auto}.rv,.media img,.hero .bg img,.hero .meta{opacity:1!important;transform:none!important}.clip{clip-path:none!important}.line>span,.ln>span{transform:none!important}</style></noscript>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23070707'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Impact,Arial Black,sans-serif' font-size='28' fill='%23F3F1EC'%3EB.T.%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#070707">
-<link rel="preload" as="image" href="img/hero-wide.webp" media="(min-width:1000px) and (min-aspect-ratio:5/4)" fetchpriority="high">
-<link rel="preload" as="image" href="img/hero.webp" media="not all and (min-width:1000px) and (min-aspect-ratio:5/4)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-900.webp" fetchpriority="high">
 <link rel="preload" href="fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
@@ -411,6 +410,16 @@ footer a:hover{color:var(--fg)}
 #about{background:linear-gradient(180deg,rgba(7,7,7,0) 0,rgba(7,7,7,.12) calc(var(--H,100vh)*0.06),rgba(7,7,7,.3) calc(var(--H,100vh)*0.12),rgba(7,7,7,.52) calc(var(--H,100vh)*0.18),rgba(7,7,7,.72) calc(var(--H,100vh)*0.24),rgba(7,7,7,.87) calc(var(--H,100vh)*0.3),rgba(7,7,7,.96) calc(var(--H,100vh)*0.36),var(--bg) calc(var(--H,100vh)*0.42));padding-top:calc(clamp(90px,14vw,180px) + calc(var(--H,100vh)*0.22))}
 @media (max-width:900px){#about{padding-top:calc(72px + calc(var(--H,100vh)*0.2))}}
 
+
+/* hero preview: a soft version of the photo is there from the first moment, the sharp one fades in over it */
+.hero .kb::before{content:"";position:absolute;inset:-6%;background:var(--lq) 50% 72%/cover no-repeat;filter:blur(22px) saturate(1.1);transform:scale(1.04);transition:opacity 1.4s var(--ease)}
+.hero .kb picture{position:relative;z-index:1}
+.hero .kb.lit::before{opacity:0}
+.hero .lz::after{display:none}
+
+.hero .kb .mid{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .9s var(--ease);object-position:50% 72%}
+.hero .kb .mid.on{opacity:1}
+.hero .kb.lit .mid{transition-delay:1.2s;opacity:0}
 /* scroll cue: a beam of sunset light glides down a fine track */
 .hero .scroll i{position:relative;width:1px;height:60px;background:rgba(243,241,236,.16);overflow:hidden;animation:none;transform:none}
 .hero .scroll i::after{content:"";position:absolute;left:0;top:0;width:1px;height:45%;background:linear-gradient(180deg,rgba(246,179,122,0),rgba(246,179,122,.85) 55%,#F3F1EC);animation:cue 2.4s cubic-bezier(.65,0,.35,1) infinite;will-change:transform}
@@ -459,7 +468,7 @@ footer a:hover{color:var(--fg)}
 </div>
 
 <header class="hero" id="top">
-  <div class="bg"><div class="kb"><picture><source media="(min-width:1000px) and (min-aspect-ratio:5/4)" srcset="img/hero-wide.webp"><img src="img/hero.webp" alt="Bekhzod at sunset by the sea in Japan" fetchpriority="high"></picture></div></div>
+  <div class="bg"><div class="kb" style="--lq:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAA5ACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCcJUix1YWL2qVYq6nI57FVYqkEVWli9qkEXtUuRXKOWGpFh9qsqi1JhFGSQBXM6puoFYQ04RVYQowypBFPCiodZFKmzmV1c+hrH1zxPLFayRxqVY8Zrn21ac8g4rOvLuS5TEh707RFzyOz8N+IJpbLbLyVrWbW5h90V55YXsltGAhrSj11xw6A1Dpwb2KVWVrXMEvxxTeT1oFA71ojEevApc03tSjrQM//2Q==)"><img class="mid" src="img/hero-900.webp" alt="" aria-hidden="true" fetchpriority="high"><picture><source media="(min-width:1000px) and (min-aspect-ratio:5/4)" data-srcset="img/hero-wide.webp"><img data-src="img/hero.webp" alt="Bekhzod at sunset by the sea in Japan" fetchpriority="high"></picture></div></div>
   <div class="shade" id="heroShade" aria-hidden="true"></div>
   <div class="txt wrap" id="heroTxt">
     <h1 class="disp" id="name"><span class="line"><span>Turgunboev</span></span><span class="line"><span>Bekhzod</span></span></h1>
@@ -469,6 +478,17 @@ footer a:hover{color:var(--fg)}
     </div>
   </div>
 </header>
+<script>(function(){var b=document.body,l=document.getElementById('loader');
+function open(){if(!b.classList.contains('loading'))return;b.classList.remove('loading');b.classList.add('ready');if(l){l.classList.add('done');setTimeout(function(){l.style.display='none'},1400)}}
+setTimeout(open,matchMedia('(prefers-reduced-motion: reduce)').matches?0:520);
+var mid=document.querySelector('.hero .mid');function md(){mid.classList.add('on')}if(mid.complete&&mid.naturalWidth)md();else mid.addEventListener('load',md);
+var im=document.querySelector('.hero .bg picture img'),src=document.querySelector('.hero picture source'),go=0;
+// full HD starts only after the light photo is on screen, so a slow connection never shows black
+function hd(){if(go)return;go=1;src.srcset=src.dataset.srcset;im.src=im.dataset.src}
+if(mid.complete&&mid.naturalWidth)hd();else{mid.addEventListener('load',hd);mid.addEventListener('error',hd);setTimeout(hd,4000)}
+var kb=document.querySelector('.hero .kb');function lit(){im.classList.add('ok');kb.classList.add('lit')}
+if(im.complete&&im.naturalWidth)lit();else im.addEventListener('load',lit);})()</script>
+
 
 
 <section id="about">
@@ -494,12 +514,12 @@ footer a:hover{color:var(--fg)}
     <figure class="gl">
     
       <figcaption><span class="label">Grew up</span><b>Fukuoka, Japan</b></figcaption>
-      <div class="media clip"><img decoding="async" src="img/globe-japan.webp" alt="Map pin on Fukuoka, Japan" width="900" height="1125" loading="lazy"></div>
+      <div class="media clip"><img decoding="async" data-src="img/globe-japan.webp" alt="Map pin on Fukuoka, Japan" width="900" height="1125" loading="lazy"></div>
     </figure>
     <figure class="gl d2">
     
       <figcaption><span class="label">Building now</span><b>Tashkent, Uzbekistan</b></figcaption>
-      <div class="media clip" style="transition-delay:.15s"><img decoding="async" src="img/globe-tashkent.webp" alt="Map pin on Tashkent, Uzbekistan" width="900" height="1125" loading="lazy"></div>
+      <div class="media clip" style="transition-delay:.15s"><img decoding="async" data-src="img/globe-tashkent.webp" alt="Map pin on Tashkent, Uzbekistan" width="900" height="1125" loading="lazy"></div>
     </figure>
   </div>
 </section>
@@ -515,49 +535,49 @@ footer a:hover{color:var(--fg)}
     </div>
     <div class="strip" id="strip">
       <figure class="shot">
-        <div class="media"><img decoding="async" width="887" height="1162" src="img/g1-baby.webp" srcset="img/g1-baby-640.webp 640w, img/g1-baby.webp 887w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod as a baby"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="887" height="1162" data-src="img/g1-baby.webp" data-srcset="img/g1-baby-640.webp 640w, img/g1-baby.webp 887w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod as a baby"></div>
         <span class="age">Age 0-1 · Namangan → Tashkent</span>
         <h3>Where it began</h3>
         <p>Born in To'raqo'rg'on, Namangan. At 1, my family moved to Tashkent.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="952" height="796" src="img/g2-fukuoka.webp" srcset="img/g2-fukuoka-900.webp 900w, img/g2-fukuoka.webp 952w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:45% 50%" alt="Bekhzod with his father in Fukuoka"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="952" height="796" data-src="img/g2-fukuoka.webp" data-srcset="img/g2-fukuoka-900.webp 900w, img/g2-fukuoka.webp 952w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:45% 50%" alt="Bekhzod with his father in Fukuoka"></div>
         <span class="age">Age 2 · Fukuoka, Japan</span>
         <h3>A new country</h3>
         <p>At 2, my family decided to move to Fukuoka, Japan.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="960" height="720" src="img/g3-school.webp" srcset="img/g3-school-900.webp 900w, img/g3-school.webp 960w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:22% 50%" alt="Bekhzod at Koryo Elementary School"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="960" height="720" data-src="img/g3-school.webp" data-srcset="img/g3-school-900.webp 900w, img/g3-school.webp 960w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:22% 50%" alt="Bekhzod at Koryo Elementary School"></div>
         <span class="age">Kōryō Elementary · Fukuoka</span>
         <h3>First day</h3>
         <p>My first day of 1st grade, age 6.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="1280" height="959" src="img/g8-class.webp" srcset="img/g8-class-900.webp 900w, img/g8-class.webp 1280w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:47% 50%" alt="Bekhzod, in a red jacket, with classmates at elementary school in Fukuoka"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="1280" height="959" data-src="img/g8-class.webp" data-srcset="img/g8-class-900.webp 900w, img/g8-class.webp 1280w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:47% 50%" alt="Bekhzod, in a red jacket, with classmates at elementary school in Fukuoka"></div>
         <span class="age">Elementary school · Fukuoka</span>
         <h3>School days</h3>
         <p>Class time in Fukuoka - that's me in red.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="960" height="1280" src="img/g4-karate.webp" srcset="img/g4-karate-900.webp 900w, img/g4-karate.webp 960w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod with a karate medal"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="960" height="1280" data-src="img/g4-karate.webp" data-srcset="img/g4-karate-900.webp 900w, img/g4-karate.webp 960w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod with a karate medal"></div>
         <span class="age">Shigenjuku Karate</span>
         <h3>Discipline</h3>
         <p>Training at Shigenjuku dojo - where discipline started.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="956" height="1276" src="img/g6-family.webp" srcset="img/g6-family-900.webp 900w, img/g6-family.webp 956w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod with his parents and his newborn 3rd younger brother"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="956" height="1276" data-src="img/g6-family.webp" data-srcset="img/g6-family-900.webp 900w, img/g6-family.webp 956w" sizes="(max-width:900px) 92vw, 50vw" alt="Bekhzod with his parents and his newborn 3rd younger brother"></div>
         <span class="age">Family</span>
         <h3>The day my 3rd brother was born</h3>
         <p>I'm the eldest son of 6 boys, I have 5 younger brothers.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="852" height="1280" src="img/g7-gym.webp" srcset="img/g7-gym-600.webp 600w, img/g7-gym.webp 852w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:50% 40%" alt="Bekhzod playing basketball in the school gym"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="852" height="1280" data-src="img/g7-gym.webp" data-srcset="img/g7-gym-600.webp 600w, img/g7-gym.webp 852w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:50% 40%" alt="Bekhzod playing basketball in the school gym"></div>
         <span class="age">Fukuoka</span>
         <h3>Junior high school days</h3>
         <p>I trained really hard at basketball. I grew up in Japan until I was 14.</p>
       </figure>
       <figure class="shot">
-        <div class="media"><img decoding="async" width="1280" height="960" src="img/g9-family-sea.webp" srcset="img/g9-family-sea-900.webp 900w, img/g9-family-sea.webp 1280w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:44% 55%" alt="Bekhzod's family by the sea"></div>
+        <div class="media"><img loading="lazy" decoding="async" width="1280" height="960" data-src="img/g9-family-sea.webp" data-srcset="img/g9-family-sea-900.webp 900w, img/g9-family-sea.webp 1280w" sizes="(max-width:900px) 92vw, 50vw" style="object-position:44% 55%" alt="Bekhzod's family by the sea"></div>
         <span class="age">By the sea</span>
         <h3>Family</h3>
         <p>All of us together by the sea.</p>
@@ -575,23 +595,23 @@ footer a:hover{color:var(--fg)}
     <div class="now-list">
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">01</span><h3>Studying</h3><p>CIFS - Certificate of International Foundation Studies, year 1 at Westminster International University in Tashkent.</p></div>
-      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-class2.webp" srcset="img/n-class2-760.webp 760w, img/n-class2.webp 1279w" sizes="(max-width:900px) 46vw, 22vw" width="1279" height="1312" alt="At WIUT" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-cifs-tile.webp" srcset="img/n-cifs-tile-760.webp 760w, img/n-cifs-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="CIFS49 written in cotton on a carpet" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img data-src="img/n-class2.webp" data-srcset="img/n-class2-760.webp 760w, img/n-class2.webp 1279w" sizes="(max-width:900px) 46vw, 22vw" width="1279" height="1312" alt="At WIUT" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/n-cifs-tile.webp" data-srcset="img/n-cifs-tile-760.webp 760w, img/n-cifs-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="CIFS49 written in cotton on a carpet" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">02</span><h3>Building</h3><p>I want to build something of my own. Still figuring it out, one project at a time.</p></div>
-      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-techstars2.webp" width="581" height="1236" alt="At Techstars Startup Week" loading="lazy" decoding="async" style="object-position:50% 30%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-code.webp" srcset="img/n-code-760.webp 760w, img/n-code.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Laptop with code at night" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img data-src="img/n-techstars2.webp" width="581" height="1236" alt="At Techstars Startup Week" loading="lazy" decoding="async" style="object-position:50% 30%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/n-code.webp" data-srcset="img/n-code-760.webp 760w, img/n-code.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Laptop with code at night" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">03</span><h3>Training</h3><p>Building my body the same way I build everything else.</p></div>
-      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-gym.webp" srcset="img/n-gym-760.webp 760w, img/n-gym.webp 1234w" sizes="(max-width:900px) 46vw, 22vw" width="1234" height="1280" alt="Training at the gym" loading="lazy" decoding="async" style="object-position:50% 40%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-rainbow.webp" srcset="img/t-rainbow-760.webp 760w, img/t-rainbow.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="The running track under a rainbow" loading="lazy" decoding="async" style="object-position:55% 70%"></div></div></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img data-src="img/n-gym.webp" data-srcset="img/n-gym-760.webp 760w, img/n-gym.webp 1234w" sizes="(max-width:900px) 46vw, 22vw" width="1234" height="1280" alt="Training at the gym" loading="lazy" decoding="async" style="object-position:50% 40%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-rainbow.webp" data-srcset="img/t-rainbow-760.webp 760w, img/t-rainbow.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="The running track under a rainbow" loading="lazy" decoding="async" style="object-position:55% 70%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">04</span><h3>Learning</h3><p>AI Literacy for Students - certificate from WIUT Digital Academy, November 2026.</p></div>
-      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/n-cert.webp" srcset="img/n-cert-760.webp 760w, img/n-cert.webp 1240w" sizes="(max-width:900px) 46vw, 22vw" width="1240" height="1754" alt="AI Literacy for Students certificate" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img data-src="img/n-cert.webp" data-srcset="img/n-cert-760.webp 760w, img/n-cert.webp 1240w" sizes="(max-width:900px) 46vw, 22vw" width="1240" height="1754" alt="AI Literacy for Students certificate" loading="lazy" decoding="async" style="object-position:50% 35%"></div></div></div>
     </div>
     <div class="now-row rv">
       <div class="now-txt"><span class="now-n">05</span><h3>Travelling</h3><p>Seeing the world is part of my plan.</p></div>
-      <div class="now-pics"><div class="ph-btn"><div class="media"><img src="img/t-plane.webp" srcset="img/t-plane-760.webp 760w, img/t-plane.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Flying over Fukuoka" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-mirror.webp" srcset="img/t-mirror-760.webp 760w, img/t-mirror.webp 1080w" sizes="(max-width:900px) 46vw, 22vw" width="1080" height="1920" alt="Red moon over the sea, seen from the car" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-incheon.webp" srcset="img/t-incheon-760.webp 760w, img/t-incheon.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Incheon Airport" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-tree.webp" srcset="img/t-tree-760.webp 760w, img/t-tree.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Looking at the sea in Japan" loading="lazy" decoding="async" style="object-position:30% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-beach.webp" srcset="img/t-beach-760.webp 760w, img/t-beach.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="A beach in Fukuoka" loading="lazy" decoding="async" style="object-position:50% 60%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-bike.webp" srcset="img/t-bike-760.webp 760w, img/t-bike.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Bike under a sunset sky" loading="lazy" decoding="async" style="object-position:50% 62%"></div></div><div class="ph-btn"><div class="media"><img src="img/t-night.webp" srcset="img/t-night-760.webp 760w, img/t-night.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Evening by the sea" loading="lazy" decoding="async" style="object-position:30% 55%"></div></div><div class="ph-btn"><div class="media"><img src="img/n-camera-tile.webp" srcset="img/n-camera-tile-760.webp 760w, img/n-camera-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="Filming the night sky" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
+      <div class="now-pics"><div class="ph-btn"><div class="media"><img data-src="img/t-plane.webp" data-srcset="img/t-plane-760.webp 760w, img/t-plane.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Flying over Fukuoka" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-mirror.webp" data-srcset="img/t-mirror-760.webp 760w, img/t-mirror.webp 1080w" sizes="(max-width:900px) 46vw, 22vw" width="1080" height="1920" alt="Red moon over the sea, seen from the car" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-incheon.webp" data-srcset="img/t-incheon-760.webp 760w, img/t-incheon.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Incheon Airport" loading="lazy" decoding="async" style="object-position:50% 55%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-tree.webp" data-srcset="img/t-tree-760.webp 760w, img/t-tree.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Looking at the sea in Japan" loading="lazy" decoding="async" style="object-position:30% 62%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-beach.webp" data-srcset="img/t-beach-760.webp 760w, img/t-beach.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="A beach in Fukuoka" loading="lazy" decoding="async" style="object-position:50% 60%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-bike.webp" data-srcset="img/t-bike-760.webp 760w, img/t-bike.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Bike under a sunset sky" loading="lazy" decoding="async" style="object-position:50% 62%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/t-night.webp" data-srcset="img/t-night-760.webp 760w, img/t-night.webp 1242w" sizes="(max-width:900px) 46vw, 22vw" width="1242" height="2208" alt="Evening by the sea" loading="lazy" decoding="async" style="object-position:30% 55%"></div></div><div class="ph-btn"><div class="media"><img data-src="img/n-camera-tile.webp" data-srcset="img/n-camera-tile-760.webp 760w, img/n-camera-tile.webp 1000w" sizes="(max-width:900px) 46vw, 22vw" width="1000" height="1250" alt="Filming the night sky" loading="lazy" decoding="async" style="object-position:50% 50%"></div></div></div>
     </div>
     </div>
   </div>
@@ -604,7 +624,7 @@ footer a:hover{color:var(--fg)}
     <p class="rv d2" style="margin-top:20px;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--mut)">Brick by brick.</p>
     <div class="feat rv">
       <a class="feat-media" href="https://japanuniversal.com" target="_blank" rel="noopener" aria-label="Visit japanuniversal.com">
-        <div class="media"><img src="img/jus.webp" srcset="img/jus-900.webp 900w, img/jus.webp 2000w" sizes="(max-width:900px) 92vw, 56vw" alt="Japan Universal Shop website on a computer and a phone" width="2000" height="2500" loading="lazy" decoding="async"></div>
+        <div class="media"><img data-src="img/jus.webp" data-srcset="img/jus-900.webp 900w, img/jus.webp 2000w" sizes="(max-width:900px) 92vw, 56vw" alt="Japan Universal Shop website on a computer and a phone" width="2000" height="2500" loading="lazy" decoding="async"></div>
       </a>
       <div class="feat-txt">
         <span class="now-n">01 · Live</span>
@@ -666,9 +686,10 @@ const failed=new Set();
 // data saver / very slow network: use the lighter photo for everything not yet downloaded
 const CN=navigator.connection||{},LITE=!!(CN.saveData||/(^|-)2g$/.test(CN.effectiveType||''));
 if(LITE){document.documentElement.classList.add('lite');
-  document.querySelectorAll('img[srcset][loading="lazy"]').forEach(img=>{const sm=img.getAttribute('srcset').split(',')[0].trim().split(/\s+/)[0];img.dataset.o=img.getAttribute('src');img.removeAttribute('srcset');img.src=sm;});}
-document.querySelectorAll('img[src^="img/"]:not(.thumb)').forEach(img=>{
-  const box=img.parentElement,lq=LQ[img.dataset.o||img.getAttribute('src')];
+  document.querySelectorAll('img[data-srcset]').forEach(img=>{const sm=img.dataset.srcset.split(',')[0].trim().split(/\s+/)[0];img.dataset.o=img.dataset.src;delete img.dataset.srcset;img.dataset.src=sm;});}
+document.querySelectorAll('img[src^="img/"]:not(.thumb),img[data-src^="img/"]:not(.thumb)').forEach(img=>{
+  if(img.closest('.hero'))return; // the hero has its own instant preview
+  const box=img.parentElement,lq=LQ[img.dataset.o||img.getAttribute('src')||img.dataset.src];
   if(lq){box.style.backgroundImage='url('+lq+')';box.style.backgroundPosition=getComputedStyle(img).objectPosition;}
   box.classList.add('lz');
   const done=()=>{img.classList.add('ok');box.classList.add('done');box.classList.remove('err');failed.delete(img);};
@@ -680,13 +701,17 @@ document.querySelectorAll('img[src^="img/"]:not(.thumb)').forEach(img=>{
 // photos that failed on a weak connection reload by themselves when the signal returns (or on tap)
 function retryImg(img){const box=img.parentElement;box.classList.remove('err','done');
   const base=(img.getAttribute('src')||'').split('?')[0];img.removeAttribute('srcset');img.src=base+'?r='+Date.now();}
-if('IntersectionObserver' in window&&!LITE){const pre=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;pre.unobserve(e.target);
-    (e.target.tagName==='IMG'?[e.target]:e.target.querySelectorAll('img[loading="lazy"]')).forEach(i=>i.loading='eager');}),{rootMargin:'1400px 0px 1400px 0px'});
+function startImg(i){if(!i.dataset.src)return;i.loading='eager';if(i.dataset.srcset){i.srcset=i.dataset.srcset;delete i.dataset.srcset;}i.src=i.dataset.src;delete i.dataset.src;}
+new Promise(r=>{const h=document.querySelector('.hero .bg picture img');if(h.complete&&h.naturalWidth)r();else{h.addEventListener('load',r);h.addEventListener('error',r);setTimeout(r,8000);}}).then(()=>{
+  const waiting=[...document.querySelectorAll('img[data-src]')];
+  if(!('IntersectionObserver' in window)){waiting.forEach(startImg);return;}
+  const pre=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;pre.unobserve(e.target);
+    (e.target.tagName==='IMG'?[e.target]:e.target.querySelectorAll('img[data-src]')).forEach(startImg);}),{rootMargin:(LITE?'600px':'1400px')+' 0px'});
   // photos inside the sideways reel load together as the reel gets close
-  document.querySelectorAll('img[loading="lazy"]').forEach(i=>{const st=i.closest('.strip');if(!st)pre.observe(i);});
-  document.querySelectorAll('.strip').forEach(st=>pre.observe(st));}
+  waiting.forEach(i=>{if(!i.closest('.strip'))pre.observe(i);});
+  document.querySelectorAll('.strip').forEach(st=>pre.observe(st));});
 function retryAll(){[...failed].forEach(retryImg);}
-const heroImg=document.querySelector('.hero .bg img');
+const heroImg=document.querySelector('.hero .bg picture img');
 const heroReady=new Promise(r=>{if(heroImg.complete&&heroImg.naturalWidth)r();else{heroImg.addEventListener('load',r);heroImg.addEventListener('error',r);setTimeout(r,6000);}});
 const RMQ=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const body=document.body,hz=document.getElementById('hz'),ld=document.getElementById('loader');
@@ -786,7 +811,7 @@ if(window.Lenis&&!RM&&FINE){
   }));
 }
 // hero parallax
-const heroImgEl=document.querySelector('.hero .bg img');
+const heroImgEl=document.querySelector('.hero .bg picture img');
 const heroShade=document.getElementById('heroShade');let hfQ=false;
 let hfLast=-1;const heroEl=document.getElementById('top');function heroFx(sy){
   const y=Math.max(0,Math.round(sy*4)/4);if(y===hfLast)return;hfLast=y;const _y=y,vh=SVH;if(y>vh*1.55){if(hfQ)return;hfQ=true;}else hfQ=false;const p=Math.min(1,y/vh);
