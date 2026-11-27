@@ -327,6 +327,7 @@ body.menu{overflow:hidden}
 
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:56px;border-top:1px solid var(--line);padding-top:32px}
 .stats b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(32px,3.6vw,52px);line-height:1}
+.stats b i{font-style:normal;display:inline-block;text-align:center}.stats b .dg{width:.54em}.stats b .dt{width:.24em}
 .stats span{display:block;margin-top:10px;font-size:13px;color:var(--mut);line-height:1.5}
 
 /* globes */
@@ -851,9 +852,11 @@ let hfLast=-1;const heroEl=document.getElementById('top');function heroFx(sy){
 // count up
 document.querySelectorAll('.stats b').forEach(b=>{
   const v=parseFloat(b.textContent);if(isNaN(v)||RM)return;
-  const dec=(b.textContent.split('.')[1]||'').length;b.textContent=(0).toFixed(dec);
+  const dec=(b.textContent.split('.')[1]||'').length;
+  // every digit gets a fixed-width slot, so the number never jiggles while it counts
+  const put=n=>{b.innerHTML=n.toFixed(dec).split('').map(c=>'<i class="'+(c==='.'?'dt':'dg')+'">'+c+'</i>').join('')};put(0);
   const o=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;o.disconnect();
-    const t0=performance.now(),D=1600;const step=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,4);b.textContent=(v*e).toFixed(dec);if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step);},{threshold:.6});
+    const t0=performance.now(),D=1600;const step=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,4);put(v*e);if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step);},{threshold:.6});
   o.observe(b);
 });
 // cursor
