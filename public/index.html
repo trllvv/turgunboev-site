@@ -867,12 +867,21 @@ function hideMeta(){if(RM)return;metaAnims.forEach(a=>a.cancel());metaAnims=[];m
 function riseMeta(){if(RM)return;metaAnims.forEach(a=>a.cancel());
   metaAnims=metaKids.map((k,i)=>{k.style.opacity='';k.style.transform='';
     return k.animate([{opacity:0,transform:'translate3d(0,28px,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:1000,delay:60+i*140,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'});});}
-function glideTop(){const y0=scrollY;let rose=false;hideMeta();if(RM||y0<2){scrollTo({top:0,behavior:'instant'});return;}
-  const D=Math.min(1400,Math.max(800,y0*0.12)),t0=performance.now();let stop=false;
-  const cancel=()=>{stop=true;riseMeta();};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
-  const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
-  (function f(t){if(stop)return;const k=Math.min(1,(t-t0)/D);const yy=Math.round(y0*(1-ease(k)));scrollTo({top:yy,behavior:'instant'});if(!rose&&k>=1){rose=true;riseMeta();}if(k<1)requestAnimationFrame(f);
-    else{removeEventListener('touchstart',cancel);removeEventListener('wheel',cancel);}})(t0);}
+function glideTop(){const y0=scrollY;hideMeta();if(RM||y0<2){scrollTo({top:0,behavior:'instant'});riseMeta();return;}
+  const H=SVH;let stop=false,rose=false;
+  const cancel=()=>{stop=true;veilOut();riseMeta();};addEventListener('touchstart',cancel,{once:true,passive:true});addEventListener('wheel',cancel,{once:true,passive:true});
+  const done=()=>{removeEventListener('touchstart',cancel);removeEventListener('wheel',cancel);};
+  // final, visible part: About slides down off the hero; the subtitle rises as soon as it is uncovered
+  const glide=(from)=>{const D=950,t0=performance.now(),ease=k=>-(Math.cos(Math.PI*k)-1)/2;
+    (function f(t){if(stop)return;const k=Math.min(1,(t-t0)/D),yy=Math.round(from*(1-ease(k)));scrollTo({top:yy,behavior:'instant'});
+      if(!rose&&yy<H*0.15){rose=true;riseMeta();}if(k<1)requestAnimationFrame(f);else{if(!rose)riseMeta();done();}})(t0);};
+  if(y0<=H*1.3){glide(y0);return;}
+  // far away: a short dip to black hides the long trip, then the page glides the last stretch
+  veilIn(()=>{if(stop)return;scrollTo({top:Math.round(H*1.15),behavior:'instant'});requestAnimationFrame(()=>{veilOut();glide(Math.round(H*1.15));});});}
+let veil=null;
+function veilIn(cb){if(!veil){veil=document.createElement('div');veil.style.cssText='position:fixed;inset:0;z-index:98;background:#070707;opacity:0;pointer-events:none';document.body.appendChild(veil);}
+  veil.getAnimations().forEach(a=>a.cancel());const a=veil.animate([{opacity:0},{opacity:1}],{duration:220,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});a.onfinish=cb;}
+function veilOut(){if(!veil)return;veil.getAnimations().forEach(a=>a.cancel());veil.animate([{opacity:1},{opacity:0}],{duration:420,easing:'cubic-bezier(0,0,.2,1)',fill:'forwards'});}
 if(!lenis)document.querySelectorAll('a[href="#top"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();glideTop();}));
 // hero parallax
 const heroImgEl=document.querySelector('.hero .bg picture img');
